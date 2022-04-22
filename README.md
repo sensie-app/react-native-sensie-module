@@ -11,11 +11,11 @@ npm install react-native-sensie-module
 ## Usage
 
 ```js
-import { multiply } from "react-native-sensie-module";
+import { whipCounter } from "react-native-sensie-module";
 
 // ...
 
-const result = await multiply(3, 7);
+const result = await whipCounter({yaw: [1.0, 2.0, 3.0]})
 ```
 
 ## Contributing
