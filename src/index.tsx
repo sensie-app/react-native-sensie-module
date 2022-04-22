@@ -1,5 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-import { accelerometer, gyroscope} from 'react-native-sensors';
+// import { accelerometer, gyroscope} from 'react-native-sensors';
 
 const LINKING_ERROR =
   `The package 'react-native-sensie-module' doesn't seem to be linked. Make sure: \n\n` +
