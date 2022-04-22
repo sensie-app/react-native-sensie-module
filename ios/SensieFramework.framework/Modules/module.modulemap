@@ -1,0 +1,11 @@
+framework module SensieFramework {
+  umbrella header "SensieFramework.h"
+
+  export *
+  module * { export * }
+}
+
+module SensieFramework.Swift {
+    header "SensieFramework-Swift.h"
+    requires objc
+}

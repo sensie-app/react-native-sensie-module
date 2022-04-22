@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-
-		5E555C0D2413F4C50049A1A2 /* SensieModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* SensieModule.m */; };
-		F4FF95D7245B92E800C19C63 /*  SensieModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /*  SensieModule.swift */; };
-
+		C65ED6142B69CB358FF4ED33 /* Pods_SensieModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0702F28BD16DB263A94E8CE9 /* Pods_SensieModule.framework */; };
+		F4FF95D7245B92E800C19C63 /* SensieModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /* SensieModule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,12 +24,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0702F28BD16DB263A94E8CE9 /* Pods_SensieModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SensieModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		134814201AA4EA6300B7C361 /* libSensieModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSensieModule.a; sourceTree = BUILT_PRODUCTS_DIR; };
-
+		A7C0847299AD285C35DA6526 /* Pods-SensieModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SensieModule.release.xcconfig"; path = "Target Support Files/Pods-SensieModule/Pods-SensieModule.release.xcconfig"; sourceTree = "<group>"; };
+		AD3EBEDBA7B402D91AA897A9 /* Pods-SensieModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SensieModule.debug.xcconfig"; path = "Target Support Files/Pods-SensieModule/Pods-SensieModule.debug.xcconfig"; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* SensieModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensieModule.m; sourceTree = "<group>"; };
 		F4FF95D5245B92E700C19C63 /* SensieModule-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SensieModule-Bridging-Header.h"; sourceTree = "<group>"; };
 		F4FF95D6245B92E800C19C63 /* SensieModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensieModule.swift; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C65ED6142B69CB358FF4ED33 /* Pods_SensieModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,15 +53,33 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3A7D3B13F39A517FAF51772B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0702F28BD16DB263A94E8CE9 /* Pods_SensieModule.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		51F1651B7570B4C40CE3AC6E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AD3EBEDBA7B402D91AA897A9 /* Pods-SensieModule.debug.xcconfig */,
+				A7C0847299AD285C35DA6526 /* Pods-SensieModule.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-
 				F4FF95D6245B92E800C19C63 /* SensieModule.swift */,
 				B3E7B5891CC2AC0600A0062D /* SensieModule.m */,
 				F4FF95D5245B92E700C19C63 /* SensieModule-Bridging-Header.h */,
-
 				134814211AA4EA7D00B7C361 /* Products */,
+				51F1651B7570B4C40CE3AC6E /* Pods */,
+				3A7D3B13F39A517FAF51772B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -72,6 +90,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "SensieModule" */;
 			buildPhases = (
+				27CA52421034724FADABF001 /* [CP] Check Pods Manifest.lock */,
 				58B511D71A9E6C8500147676 /* Sources */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
 				58B511D91A9E6C8500147676 /* CopyFiles */,
@@ -117,15 +136,37 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		27CA52421034724FADABF001 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SensieModule-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		58B511D71A9E6C8500147676 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
 				F4FF95D7245B92E800C19C63 /* SensieModule.swift in Sources */,
-				B3E7B58A1CC2AC0600A0062D /* SensieModule.m in Sources */,
-
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +268,7 @@
 		};
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AD3EBEDBA7B402D91AA897A9 /* Pods-SensieModule.debug.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -238,16 +280,15 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = SensieModule;
 				SKIP_INSTALL = YES;
-
 				SWIFT_OBJC_BRIDGING_HEADER = "SensieModule-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-
 			};
 			name = Debug;
 		};
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7C0847299AD285C35DA6526 /* Pods-SensieModule.release.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -259,10 +300,8 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = SensieModule;
 				SKIP_INSTALL = YES;
-
 				SWIFT_OBJC_BRIDGING_HEADER = "SensieModule-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-
 			};
 			name = Release;
 		};
