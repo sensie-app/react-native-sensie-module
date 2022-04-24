@@ -1,5 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-// import { accelerometer, gyroscope} from 'react-native-sensors';
+import { accelerometer, gyroscope } from 'react-native-sensors';
 
 const LINKING_ERROR =
   `The package 'react-native-sensie-module' doesn't seem to be linked. Make sure: \n\n` +
@@ -34,94 +34,158 @@ export function whipCounter(p: Object): Promise<WhipCounterReturn> {
   return SensieModule.whipCounter(p);
 }
 
+// Following lines are interface for native code & utils. No Algorithms are exposed.
+
 type WhipCounterReturn = {
-  avgFlatCrest: number[],
-  whipCount: number
+  avgFlatCrest: number[];
+  whipCount: number;
+};
+
+type SensorData = {
+  gyroX: number[];
+  gyroY: number[];
+  gyroZ: number[];
+  accelX: number[];
+  accelY: number[];
+  accelZ: number[];
+};
+
+class CalibrationSession {
+  id: String
+  currentSensie: Object
+  sensorData: SensorData
+  sensies: Object[]
+
+  constructor() {
+    this.id = this.genSessionId()
+    this.currentSensie = {}
+    this.sensorData = {
+      gyroX: [],
+      gyroY: [],
+      gyroZ: [],
+      accelX: [],
+      accelY: [],
+      accelZ: [],
+    }
+    this.sensies = []
+  }
+
+  genSessionId() {
+    return 'sessionID' + Date.now().toString(36) + Math.random().toString(36).substring(2);
+  }
+
+  genSensieId() {
+    return 'sensieID' + Date.now().toString(36) + Math.random().toString(36).substring(2);
+  }
+
+  captureSensie(flow: Boolean, onSensorData: (data: SensorData) => {}) {
+    
+    const subGyro = gyroscope.subscribe(({ x, y, z }) => {
+      this.sensorData.gyroX.push(x);
+      this.sensorData.gyroY.push(y);
+      this.sensorData.gyroZ.push(z);
+      if (onSensorData) onSensorData(this.sensorData);
+    });
+    const subAcc = accelerometer.subscribe(({ x, y, z }) => {
+      this.sensorData.accelX.push(x);
+      this.sensorData.accelY.push(y);
+      this.sensorData.accelZ.push(z);
+      if (onSensorData) onSensorData(this.sensorData);
+    }); // Start sensors
+
+    setTimeout(async () => {
+      subGyro.unsubscribe();
+      subAcc.unsubscribe();
+      const { whipCount, avgFlatCrest } = await whipCounter({
+        yaw: this.sensorData.gyroZ,
+      });
+      if (whipCount == 3) {
+        
+        this.currentSensie = {
+          whipCount: whipCount,
+          signal: avgFlatCrest,
+          sensorData: this.sensorData,
+          flow: flow
+        }
+        this.sensies.push(this.currentSensie); // Store sensie data from sensors
+
+        // send currentSensie data to native part
+        // In native part,
+        // store sensie using storage logic accumulatively
+
+        this.sensorData = {
+          gyroX: [],
+          gyroY: [],
+          gyroZ: [],
+          accelX: [],
+          accelY: [],
+          accelZ: [],
+        }; // Reset sensor data
+      }
+
+      const retSensie = {
+        id: this.genSensieId(),
+        whips: whipCount,
+        valid: whipCount == 3,
+      }; // Sensie containing the minimal informations for checking validation.
+
+      return retSensie;
+
+    }, 3000);
+  }
 }
 
-// type SensorData = {
-//   gyroX: number[];
-//   gyroY: number[];
-//   gyroZ: number[];
-//   accelX: number[];
-//   accelY: number[];
-//   accelZ: number[];
-// };
+export class SensieEngine {
+  accessToken: String;
+  canCalibrate: Boolean;
+  onEnds: (result: Object) => void;
 
-// export class SensieEngine {
-//   accessToken: String;
-//   canCalibrate: Boolean;
-//   onEnds: (result: Object) => void;
-//   sensorData: SensorData;
+  constructor(accessToken = '') {
+    this.accessToken = accessToken;
+    this.canCalibrate = false;
+    this.onEnds = () => {};
+  }
 
-//   constructor(accessToken = '') {
-//     this.accessToken = accessToken;
-//     this.canCalibrate = false;
-//     this.onEnds = () => {};
-//     this.sensorData = {
-//       gyroX: [],
-//       gyroY: [],
-//       gyroZ: [],
-//       accelX: [],
-//       accelY: [],
-//       accelZ: [],
-//     };
-//   }
+  connect() {
+    const ret = new Promise((resolve, reject) => {
+      if (this.accessToken == '') {
+        this.canCalibrate = true;
+        resolve('Successfully connected');
+      } else {
+        reject('Connection failed');
+      }
+    });
 
-//   genSessionId() {
-//     return 'sessionID' + Math.random().toString(16).slice(2);
-//   }
+    return ret;
+  }
 
-//   connect() {
-//     const ret = new Promise((resolve, reject) => {
-//       if (this.accessToken == '') {
-//         this.canCalibrate = true;
-//         resolve('Successfully connected');
-//       } else {
-//         reject('Connection failed');
-//       }
-//     });
-//     return ret;
-//   }
+  startCalibration (
+    userId: String = 'default',
+    onEnds: (result: Object) => void
+  ): Object {
 
-//   startCalibration(
-//     userId: String = 'default',
-//     onEnds: (result: Object) => void
-//   ): Object {
-//     if (userId == 'default' && this.canCalibrate == true) {
-//       this.onEnds = onEnds;
+    if (userId == 'default' && this.canCalibrate == true) {
+      this.onEnds = onEnds;
+      return new CalibrationSession();
+    }
+    return {};
+    
+  }
 
-//       let calibrationSession = {
-//         canCaptureSensie: true,
-//         id: this.genSessionId(),
-//         currentSensie: {},
-//         captureSensie: (
-//           flow: Boolean,
-//           onSensorData?: (data: SensorData) => {}
-//         ) => {
-//           const subGyro = gyroscope.subscribe(({ x, y, z}) => {
-//             this.sensorData.gyroX.push(x);
-//             this.sensorData.gyroY.push(y);
-//             this.sensorData.gyroZ.push(z);
-//             if (onSensorData) onSensorData(this.sensorData);
-//           });
-//           const subAcc = accelerometer.subscribe(({ x, y, z }) => {
-//             this.sensorData.accelX.push(x);
-//             this.sensorData.accelY.push(y);
-//             this.sensorData.accelZ.push(z);
-//             if (onSensorData) onSensorData(this.sensorData);
-//           });
+  resetCalibration() {
+    this.onEnds = () => {};
+    // Remove sensies in storage and flow change
+  }
 
-//           setTimeout(async () => {
-//             subGyro.unsubscribe();
-//             subAcc.unsubscribe();
-//             const {whipCount, avgFlatCrest} = await whipCounter({yaw: this.sensorData.gyroZ})
+  canEvaluate() {
+    // check number of stored sensies in storage
+    // if there are 3 flow and 3 block sensies, return true
+  }
 
-//           }, 3000);
-//         },
-//       };
-//       return calibrationSession;
-//     }
-//     return {};
-//   }
-// }
+  captureSensie() {
+    // get objects from storage (It is also important to sort dictionary by time)
+    // evaluate using evaluateSensie
+
+    // onEnds, send signal strength
+  }
+}
