@@ -17,22 +17,22 @@ yarn add react-native-sensie-module
 ## Usage
 
 ### Import
+&nbsp;&nbsp; Import **SensieEngine** and **CalibrationSession** class.
 ```js
 import { SensieEngine, CalibrationSession } from "react-native-sensie-module";
 ```
-&nbsp;&nbsp; Import **SensieEngine** and **CalibrationSession** class.
 
 ### Initination
+&nbsp;&nbsp; Pass the generated token for Sensie SDK.
 ```js
 const s = new SensieEngine({accessToken: '[Token]'})
 ```
-&nbsp;&nbsp; Pass the generated token for Sensie SDK.
 
 ### Connection
+&nbsp;&nbsp; A method to establish a connection. It should return a promise that will tell us if the connection was successful.<br/>
 ```js
 await s.connect()
 ```
-&nbsp;&nbsp; A method to establish a connection. It should return a promise that will tell us if the connection was successful.<br/>
 &nbsp;&nbsp; Also, **canRecalibrate** property will be set depending on stored sensies in storage.
 
 
@@ -77,10 +77,11 @@ const sensie = await calibrationSession.captureSensie({
 
 
 ### Resetting
+&nbsp;&nbsp; Reset storage if you want to recalibrate.
 ```js
 s.resetCalibration();
 ```
-&nbsp;&nbsp; Reset storage if you want to recalibrate.
+
 
 ### Evaluation
 ```js
