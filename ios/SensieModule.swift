@@ -20,4 +20,12 @@ class SensieModule: NSObject {
     func whipCounter(p: NSDictionary, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         resolve(SensieFramework.whipCounter(param: p))
     }
+    @objc(evaluateSensie:withSensies:withResolver:withRejecter:)
+    func evaluateSensie(sensie: NSDictionary, sensies: [NSDictionary], resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        resolve(SensieFramework.evaluateSensie(sensie: sensie, sensies: sensies))
+    }
+    @objc(signalStrength:withResolver:withRejecter:)
+    func signalStrength(sensies: [NSDictionary], resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        resolve(SensieFramework.signalStrength(sensies: sensies))
+    }
 }

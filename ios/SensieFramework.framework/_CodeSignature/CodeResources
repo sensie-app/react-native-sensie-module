@@ -18,7 +18,7 @@
 		</data>
 		<key>Modules/SensieFramework.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		t1r8zFZsgEHmH4d+yPvOxviWdsk=
+		M2LEg4/4l7E1NVPAiHSkDJkN0Og=
 		</data>
 		<key>Modules/SensieFramework.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -26,7 +26,7 @@
 		</data>
 		<key>Modules/SensieFramework.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		bWxo5uGBFtvsh9K9I9E0hQiDh/Q=
+		55W2TUsRqmvTgiDbkuGnvPWRd4c=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -61,11 +61,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			t1r8zFZsgEHmH4d+yPvOxviWdsk=
+			M2LEg4/4l7E1NVPAiHSkDJkN0Og=
 			</data>
 			<key>hash2</key>
 			<data>
-			Pdv/D4ko2G7DdrBTYbncfNVDyiVHLhKKZW4eJNTHodA=
+			BncAPL3pJZgXkPBx5UP8aXzCQN7wQuD7j3b9eT6lZKI=
 			</data>
 		</dict>
 		<key>Modules/SensieFramework.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -83,11 +83,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			bWxo5uGBFtvsh9K9I9E0hQiDh/Q=
+			55W2TUsRqmvTgiDbkuGnvPWRd4c=
 			</data>
 			<key>hash2</key>
 			<data>
-			1oRPshA+bct80H+QTmo5TOaOHjmSm9xIh+N5sjg4/xo=
+			1LLk2Dz2DV1f0sfagIuq7HzUuK00gUXwKr68gtRblmU=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
