@@ -1,16 +1,16 @@
 # react-native-sensie-module
 
-React Native Sensie SDK
+React Native Sensie SDK MVP version for iOS.
 
-<br/>
+
 
 ## Installation
 
 ```sh
 npm install react-native-sensie-module
 ```
+&nbsp;&nbsp; Install via npm.
 
-<br/>
 
 ## Usage
 
@@ -18,18 +18,20 @@ npm install react-native-sensie-module
 ```js
 import { SensieEngine, CalibrationSession } from "react-native-sensie-module";
 ```
-
+&nbsp;&nbsp; Import **SensieEngine** and **CalibrationSession** class.
 
 ### Initination
 ```js
 const s = new SensieEngine({accessToken: '[Token]'})
 ```
-
+&nbsp;&nbsp; Pass the generated token for Sensie SDK.
 
 ### Connection
 ```js
 await s.connect()
 ```
+&nbsp;&nbsp; A method to establish a connection. It should return a promise that will tell us if the connection was successful.<br/>
+&nbsp;&nbsp; Also, **canRecalibrate** property will be set depending on stored sensies in storage.
 
 
 ### Calibration
@@ -40,7 +42,7 @@ calibrationSession = s.startCalibration({
     }
 })
 ```
-**result** will be an object with a single property contains **calibration strength**.
+&nbsp;&nbsp; **result** will be an object with a single property contains **calibration strength**.
 
 
 ### Capturing Sensie
@@ -52,16 +54,16 @@ const sensie = await calibrationSession.captureSensie({
 })
 ```
 
-**sensie** will be an object with the following properties:<br />
+&nbsp;&nbsp; **sensie** will be an object with the following properties:<br />
 - **id**: the id of the sensie
 - **whips**: the number of whips
 - **valid**: true if whips == 3
 
-**flow** is boolean value(true or false)<br />
+&nbsp;&nbsp; **flow** is boolean value(true or false)<br />
 
-**onSensorData** is a callback function that will be called every time we have new values from the sensors (optional)<br />
+&nbsp;&nbsp; **onSensorData** is a callback function that will be called every time we have new values from the sensors (optional)<br />
 
-**data** will be an object with the following properties:
+&nbsp;&nbsp; **data** will be an object with the following properties:
 - **gyroX**: the gyroscope X axis value
 - **gyroY**: the gyroscope Y axis value
 - **gyroZ**: the gyroscope Z axis value
@@ -76,7 +78,7 @@ const sensie = await calibrationSession.captureSensie({
 ```js
 s.resetCalibration();
 ```
-
+&nbsp;&nbsp; Reset storage if you want to recalibrate.
 
 ### Evaluation
 ```js
@@ -86,7 +88,7 @@ const sensie = await s.captureSensie({
 });
 
 ```
-**sensie** object will be an object with the following properties:
+&nbsp;&nbsp; **sensie** object will be an object with the following properties:
 - **id**: the id of the sensie
 - **whips**: the number of whips
 - **flowing**: the result of the evaluation (true or false)
