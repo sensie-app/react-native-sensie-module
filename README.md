@@ -2,33 +2,35 @@
 
 React Native Sensie SDK
 
+<br/>
+
 ## Installation
 
 ```sh
 npm install react-native-sensie-module
 ```
 
-## Usage
-
 <br/>
+
+## Usage
 
 ### Import
 ```js
 import { SensieEngine, CalibrationSession } from "react-native-sensie-module";
 ```
-<br />
+
 
 ### Initination
 ```js
 const s = new SensieEngine({accessToken: '[Token]'})
 ```
-<br />
+
 
 ### Connection
 ```js
 await s.connect()
 ```
-<br />
+
 
 ### Calibration
 ```js
@@ -39,8 +41,7 @@ calibrationSession = s.startCalibration({
 })
 ```
 **result** will be an object with a single property contains **calibration strength**.
-<br />
-<br />
+
 
 ### Capturing Sensie
 ```js
@@ -68,14 +69,14 @@ const sensie = await calibrationSession.captureSensie({
 - **accelY**: the accelerometer Y axis value
 - **accelZ**: the accelerometer Z axis value
 
-<br />
+
 
 
 ### Resetting
 ```js
 s.resetCalibration();
 ```
-<br />
+
 
 ### Evaluation
 ```js
