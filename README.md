@@ -10,16 +10,23 @@ npm install react-native-sensie-module
 
 ## Usage
 
+### Import
 ```js
 import { SensieEngine, CalibrationSession } from "react-native-sensie-module";
+```
 
-// Initiation 
+### Initination
+```js
 const s = new SensieEngine({accessToken: '[Token]'})
+```
 
-// Connection 
+### Connection
+```js
 await s.connect()
+```
 
-// Calibration 
+### Calibration
+```js
 calibrationSession = s.startCalibration({
     userId,
     onEnds: (result) => {
@@ -27,8 +34,9 @@ calibrationSession = s.startCalibration({
         // - calibration strength: numeric value
     }
 })
-
-// Capturing Sensie 
+```
+### Capturing Sensie
+```js
 const sensie = await calibrationSession.captureSensie({
     flow, // true or false
     onSensorData: (data) => {
@@ -46,11 +54,13 @@ const sensie = await calibrationSession.captureSensie({
 // - id: the id of the sensie
 // - whips: the number of whips
 // - valid: true if whips == 3
-
-// Resetting
+```
+### Resetting
+```js
 s.resetCalibration();
-
-// Evaluation
+```
+### Evaluation
+```js
 const sensie = await s.captureSensie({
   userId,
   onSensorData: (data) => {}, // (optional)
