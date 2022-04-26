@@ -1,5 +1,9 @@
 // Types for Sensie Engine
 
+type SensieEngineInit = {
+  accessToken: String
+}
+
 type WhipCounterReturn = {
   avgFlatCrest: number[];
   whipCount: number;
@@ -19,4 +23,4 @@ type EvaluateSensieReturn = {
   ratio: number
 }
 
-export { WhipCounterReturn, SensorData, EvaluateSensieReturn };
+export { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit };

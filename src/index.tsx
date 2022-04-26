@@ -1,7 +1,7 @@
 import { NativeModules, Platform } from 'react-native';
 import { accelerometer, gyroscope } from 'react-native-sensors';
 import { SENSIES, addSensie, resetAllData, getDataFromAsyncStorage } from './asyncStorageUtils'
-import type { WhipCounterReturn, SensorData, EvaluateSensieReturn} from './types'
+import type { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit} from './types'
 
 const LINKING_ERROR =
   `The package 'react-native-sensie-module' doesn't seem to be linked. Make sure: \n\n` +
@@ -74,7 +74,26 @@ export class CalibrationSession {
     return 'sensieID' + Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
 
-  captureSensie(flow: Boolean, onSensorData?: (data: SensorData) => {}) {
+  async checkStorage() {
+    const sensies = await getDataFromAsyncStorage(SENSIES)
+    let flow = 0
+    let block = 0
+    for (let i = 0; i < sensies.length; i++) {
+      if (sensies[i].flow)
+        flow++
+      else
+        block++
+    }
+    if (flow == 3 && block == 3)
+        return true 
+    return false
+  }
+
+  async captureSensie(flow: Boolean, onSensorData?: (data: SensorData) => {}) {
+
+    if (!this.canCaptureSensie) {
+      return {error: "Sensies are full enough to evaluate"}
+    }
     
     const subGyro = gyroscope.subscribe(({ x, y, z }) => {
       this.sensorData.gyroX.push(x);
@@ -106,6 +125,8 @@ export class CalibrationSession {
 
         await addSensie(this.currentSensie)
 
+        this.canCaptureSensie = !(await this.checkStorage())
+        
         this.sensorData = {
           gyroX: [],
           gyroY: [],
@@ -114,6 +135,8 @@ export class CalibrationSession {
           accelY: [],
           accelZ: [],
         }; // Reset sensor data
+
+
       }
 
       const retSensie = {
@@ -125,19 +148,22 @@ export class CalibrationSession {
       return retSensie;
 
     }, 3000);
+
+    return undefined
   }
 }
 
 export class SensieEngine {
   accessToken: String;
-  canCalibrate: Boolean;
+  canRecalibrate: Boolean;
   onEnds: (result: Object) => void;
   canEvaluate: Boolean;
-  sensorData: SensorData
+  sensorData: SensorData;
+  userId: String;
 
-  constructor(accessToken = '') {
-    this.accessToken = accessToken;
-    this.canCalibrate = false;
+  constructor(sensieEngineInit: SensieEngineInit) {
+    this.accessToken = sensieEngineInit.accessToken;
+    this.canRecalibrate = false;
     this.onEnds = () => {};
     this.canEvaluate = false;
     this.sensorData = {
@@ -148,13 +174,14 @@ export class SensieEngine {
       accelY: [],
       accelZ: [],
     }
+    this.userId = ''
   }
 
   async connect() {
     this.canEvaluate = await this.checkStorage()
     const ret = new Promise((resolve, reject) => {
       if (this.accessToken == '') {
-        this.canCalibrate = true;
+        this.canRecalibrate = this.canEvaluate;
         resolve('Successfully connected');
       } else {
         reject('Connection failed');
@@ -183,11 +210,12 @@ export class SensieEngine {
     onEnds: (result: Object) => void
   ): Object {
 
-    if (userId == 'default' && this.canCalibrate == true) {
+    if (this.canRecalibrate) {
+      this.userId = userId
       this.onEnds = onEnds;
       return new CalibrationSession();
     }
-    return {};
+    return {error: "There are stored sensies already. Please reset first"};
     
   }
 
@@ -201,6 +229,9 @@ export class SensieEngine {
   }
 
   async captureSensie(userId: String, onSensorData?: (data: SensorData) => {}) {
+
+    if (userId != this.userId)
+      return undefined
 
     const sensies = await getDataFromAsyncStorage(SENSIES)
 
@@ -244,7 +275,8 @@ export class SensieEngine {
         const retSensie = {
           id: this.genSensieId(),
           whips: whipCount,
-          flowing: flowing
+          flowing: flowing,
+          agree: -1
         };
 
         const calibration_strength = await siganlStrength(sensies)
@@ -255,5 +287,6 @@ export class SensieEngine {
       return {error: "WhipCount is not 3"}
 
     }, 3000);
+    return undefined
   }
 }
