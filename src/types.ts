@@ -4,6 +4,11 @@ type SensieEngineInit = {
   accessToken: String
 }
 
+type CalibrationInit = {
+  userId: String
+  onEnds: (result: Object) => void
+}
+
 type WhipCounterReturn = {
   avgFlatCrest: number[];
   whipCount: number;
@@ -23,4 +28,4 @@ type EvaluateSensieReturn = {
   ratio: number
 }
 
-export { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit };
+export { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit, CalibrationInit };

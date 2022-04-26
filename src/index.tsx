@@ -1,7 +1,7 @@
 import { NativeModules, Platform } from 'react-native';
 import { accelerometer, gyroscope } from 'react-native-sensors';
 import { SENSIES, addSensie, resetAllData, getDataFromAsyncStorage } from './asyncStorageUtils'
-import type { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit} from './types'
+import type { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit, CalibrationInit} from './types'
 
 const LINKING_ERROR =
   `The package 'react-native-sensie-module' doesn't seem to be linked. Make sure: \n\n` +
@@ -206,13 +206,12 @@ export class SensieEngine {
   }
 
   startCalibration (
-    userId: String = 'default',
-    onEnds: (result: Object) => void
+    calibrationInit: CalibrationInit
   ): Object {
 
     if (this.canRecalibrate) {
-      this.userId = userId
-      this.onEnds = onEnds;
+      this.userId = calibrationInit.userId
+      this.onEnds = calibrationInit.onEnds;
       return new CalibrationSession();
     }
     return {error: "There are stored sensies already. Please reset first"};
