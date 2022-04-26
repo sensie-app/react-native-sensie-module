@@ -10,6 +10,7 @@ npm install react-native-sensie-module
 
 ## Usage
 
+<br/>
 
 ### Import
 ```js
