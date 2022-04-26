@@ -6,10 +6,12 @@
 
 ## Installation
 
+&nbsp;&nbsp; Install via yarn.
+
 ```sh
-npm install react-native-sensie-module
+yarn add react-native-sensie-module
 ```
-&nbsp;&nbsp; Install via npm.
+
 
 
 ## Usage
