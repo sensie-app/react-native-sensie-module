@@ -1,6 +1,6 @@
 {
   "name": "react-native-sensie-module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Sensie SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
