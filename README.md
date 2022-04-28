@@ -19,7 +19,7 @@ yarn add react-native-sensie-module
 ### Import
 &nbsp;&nbsp; Import **SensieEngine** and **CalibrationSession** class.
 ```js
-import { SensieEngine, CalibrationSession } from "react-native-sensie-module";
+import { SensieEngine } from "react-native-sensie-module";
 ```
 
 ### Initination
