@@ -84,7 +84,7 @@ export class CalibrationSession {
       else
         block++
     }
-    if (flow == 3 && block == 3)
+    if (flow >= 3 && block >= 3)
         return true 
     return false
   }
