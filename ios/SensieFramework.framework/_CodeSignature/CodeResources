@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/SensieFramework-Swift.h</key>
 		<data>
-		XRrdzmjZsi3QhPbnFHG9eF1n1Dk=
+		U8DibGl09phZSG7+Bt42JFw+hm0=
 		</data>
 		<key>Headers/SensieFramework.h</key>
 		<data>
@@ -14,19 +14,31 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		ljBvI8BLpDA42N5Ke/9LUh1AbdQ=
+		cB8ykHtrEFynU4eyZa/Hlq0mS2A=
 		</data>
-		<key>Modules/SensieFramework.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
+		<key>Modules/SensieFramework.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		M2LEg4/4l7E1NVPAiHSkDJkN0Og=
+		xNwY6ZZeyCKlefGczfOMrU+oADA=
 		</data>
-		<key>Modules/SensieFramework.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
+		<key>Modules/SensieFramework.swiftmodule/Project/armv7-apple-ios.swiftsourceinfo</key>
 		<data>
-		EMHkKWCEMURXIMwCpAYzzr9a3E4=
+		fRdPHKnWPVfAfW8ZGBs5zBhuKds=
 		</data>
-		<key>Modules/SensieFramework.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
+		<key>Modules/SensieFramework.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		55W2TUsRqmvTgiDbkuGnvPWRd4c=
+		Jb5i/XaUKxZLvDNWWsRpgLzkgFY=
+		</data>
+		<key>Modules/SensieFramework.swiftmodule/arm64-apple-ios.swiftmodule</key>
+		<data>
+		8nx1tynZEgjm+n9Z8KpxKJyCyW0=
+		</data>
+		<key>Modules/SensieFramework.swiftmodule/armv7-apple-ios.swiftdoc</key>
+		<data>
+		oGu7TclkGLOMpWGdH06/1ZNdgRU=
+		</data>
+		<key>Modules/SensieFramework.swiftmodule/armv7-apple-ios.swiftmodule</key>
+		<data>
+		3VORY1i0EeMj2R/N5CSwehPAyN0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -39,11 +51,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			XRrdzmjZsi3QhPbnFHG9eF1n1Dk=
+			U8DibGl09phZSG7+Bt42JFw+hm0=
 			</data>
 			<key>hash2</key>
 			<data>
-			JxlT4pK4/ZmZliTvBep2cjsOM0sfuqmuxdYhTP2cz8s=
+			ag4fMQWWydSEQoShvBWA6AQrcIZBLrZvdruk39bKP6Y=
 			</data>
 		</dict>
 		<key>Headers/SensieFramework.h</key>
@@ -57,37 +69,70 @@
 			wUEShjWLX17uPH9kI4u5DfiaS5O0jq41wgOJVEwVvBI=
 			</data>
 		</dict>
-		<key>Modules/SensieFramework.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
+		<key>Modules/SensieFramework.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			M2LEg4/4l7E1NVPAiHSkDJkN0Og=
+			xNwY6ZZeyCKlefGczfOMrU+oADA=
 			</data>
 			<key>hash2</key>
 			<data>
-			BncAPL3pJZgXkPBx5UP8aXzCQN7wQuD7j3b9eT6lZKI=
+			mXRAfM5sLlBmok1pCil+6bNEIn3/HboKzPKxOnZe+H0=
 			</data>
 		</dict>
-		<key>Modules/SensieFramework.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
+		<key>Modules/SensieFramework.swiftmodule/Project/armv7-apple-ios.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			EMHkKWCEMURXIMwCpAYzzr9a3E4=
+			fRdPHKnWPVfAfW8ZGBs5zBhuKds=
 			</data>
 			<key>hash2</key>
 			<data>
-			tTpMDEtuvSLqxQN8L3s3+rZk9CNGuUx1oqP/Rq9ZvSo=
+			OMV6VVkebyc8WYDY9lHuZQaiF+UjKf5Ark+dzt23i4Y=
 			</data>
 		</dict>
-		<key>Modules/SensieFramework.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
+		<key>Modules/SensieFramework.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			55W2TUsRqmvTgiDbkuGnvPWRd4c=
+			Jb5i/XaUKxZLvDNWWsRpgLzkgFY=
 			</data>
 			<key>hash2</key>
 			<data>
-			1LLk2Dz2DV1f0sfagIuq7HzUuK00gUXwKr68gtRblmU=
+			NyHMvfGy6k0kwT3PnoibWf7kA0PYBGVk1+4dA+B+dq0=
+			</data>
+		</dict>
+		<key>Modules/SensieFramework.swiftmodule/arm64-apple-ios.swiftmodule</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			8nx1tynZEgjm+n9Z8KpxKJyCyW0=
+			</data>
+			<key>hash2</key>
+			<data>
+			BT5PdCyaXUm/uH5PKAv7wDkTgUOImCDLHTRNBCS3ULg=
+			</data>
+		</dict>
+		<key>Modules/SensieFramework.swiftmodule/armv7-apple-ios.swiftdoc</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			oGu7TclkGLOMpWGdH06/1ZNdgRU=
+			</data>
+			<key>hash2</key>
+			<data>
+			pgXL8+LikcmvWybzQbddOc6EPgwRTb1pI0J7YVdZ8ak=
+			</data>
+		</dict>
+		<key>Modules/SensieFramework.swiftmodule/armv7-apple-ios.swiftmodule</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			3VORY1i0EeMj2R/N5CSwehPAyN0=
+			</data>
+			<key>hash2</key>
+			<data>
+			eYhKat+77nHZtpDsDhNXOG8Lm83w1/Wp7DY25cn+srY=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
