@@ -207,7 +207,7 @@ export class SensieEngine {
     if (flow == 3 && block == 3)
         return true 
     return false
-  }//
+  }
 
   startCalibration (
     calibrationInit: CalibrationInit
