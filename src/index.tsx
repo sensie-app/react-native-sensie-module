@@ -150,8 +150,6 @@ export class CalibrationSession {
       return retSensie;
 
     }, 3000);
-
-    return undefined
   }
 }
 
