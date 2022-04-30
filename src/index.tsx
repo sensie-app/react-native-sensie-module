@@ -78,6 +78,8 @@ export class CalibrationSession {
     const sensies = await getDataFromAsyncStorage(SENSIES)
     let flow = 0
     let block = 0
+    if (!sensies)
+      return true
     for (let i = 0; i < sensies.length; i++) {
       if (sensies[i].flow)
         flow++
@@ -194,6 +196,8 @@ export class SensieEngine {
     const sensies = await getDataFromAsyncStorage(SENSIES)
     let flow = 0
     let block = 0
+    if (!sensies)
+      return true
     for (let i = 0; i < sensies.length; i++) {
       if (sensies[i].flow)
         flow++

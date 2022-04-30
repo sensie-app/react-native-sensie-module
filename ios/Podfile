@@ -7,4 +7,5 @@ target 'SensieModule' do
 
   # Pods for SensieModule
   pod 'RNSensors', :path => '../node_modules/react-native-sensors'
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 end
