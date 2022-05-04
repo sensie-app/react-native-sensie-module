@@ -7473,7 +7473,7 @@ react-native-gradle-plugin@^0.0.6:
 
 react-native-sensors@^7.3.5:
   version "7.3.5"
-  resolved "https://registry.npmjs.org/react-native-sensors/-/react-native-sensors-7.3.5.tgz"
+  resolved "https://registry.yarnpkg.com/react-native-sensors/-/react-native-sensors-7.3.5.tgz#19ef06ca74197a7e118a44033cd656e964cdce83"
   integrity sha512-DMxaxSmgUOLTyi7s0tDwaX5VwtljcCj9c1IhOo3EyjTjTrtSFyEHTyI61qvOxk+DXtbVYCybeqYKFe6TiM+Cbg==
   dependencies:
     rxjs ">= 6"

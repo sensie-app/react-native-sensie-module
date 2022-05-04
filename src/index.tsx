@@ -1,7 +1,18 @@
 import { NativeModules, Platform } from 'react-native';
 import { accelerometer, gyroscope } from 'react-native-sensors';
-import { SENSIES, addSensie, resetAllData, getDataFromAsyncStorage } from './asyncStorageUtils'
-import type { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit, CalibrationInit} from './types'
+import {
+  SENSIES,
+  addSensie,
+  resetAllData,
+  getDataFromAsyncStorage,
+} from './asyncStorageUtils';
+import type {
+  WhipCounterReturn,
+  SensorData,
+  EvaluateSensieReturn,
+  SensieEngineInit,
+  CalibrationInit,
+} from './types';
 
 const LINKING_ERROR =
   `The package 'react-native-sensie-module' doesn't seem to be linked. Make sure: \n\n` +
@@ -38,23 +49,39 @@ export function whipCounter(p: Object): Promise<WhipCounterReturn> {
   return SensieModule.whipCounter(p);
 }
 
-export function evaluateSensie(sensie: Object, sensies: Array<Object>): Promise<EvaluateSensieReturn> {
-  return SensieModule.evaluateSensie(sensie, sensies)
+export function evaluateSensie(
+  sensie: Object,
+  sensies: Array<Object>
+): Promise<EvaluateSensieReturn> {
+  return SensieModule.evaluateSensie(sensie, sensies);
 }
 
-export function siganlStrength(sensies: Array<Object>) : Promise<number> {
-  return SensieModule.siganlStrength(sensies)
+export function siganlStrength(sensies: Array<Object>): Promise<number> {
+  return SensieModule.siganlStrength(sensies);
 }
+
+const checkStorage = async () => {
+  const sensies = await getDataFromAsyncStorage(SENSIES);
+  let flow = 0;
+  let block = 0;
+  if (!sensies) return true;
+  for (let i = 0; i < sensies.length; i++) {
+    if (sensies[i].flow) flow++;
+    else block++;
+  }
+  if (flow >= 3 && block >= 3) return true;
+  return false;
+};
 
 export class CalibrationSession {
-  id: String
-  currentSensie: Object
-  sensorData: SensorData
-  canCaptureSensie: Boolean
+  id: String;
+  currentSensie: Object;
+  sensorData: SensorData;
+  canCaptureSensie: Boolean;
 
   constructor() {
-    this.id = this.genSessionId()
-    this.currentSensie = {}
+    this.id = this.genSessionId();
+    this.currentSensie = {};
     this.sensorData = {
       gyroX: [],
       gyroY: [],
@@ -62,41 +89,31 @@ export class CalibrationSession {
       accelX: [],
       accelY: [],
       accelZ: [],
-    }
-    this.canCaptureSensie = true
+    };
+    this.canCaptureSensie = true;
   }
 
   genSessionId() {
-    return 'sessionID' + Date.now().toString(36) + Math.random().toString(36).substring(2);
+    return (
+      'sessionID' +
+      Date.now().toString(36) +
+      Math.random().toString(36).substring(2)
+    );
   }
 
   genSensieId() {
-    return 'sensieID' + Date.now().toString(36) + Math.random().toString(36).substring(2);
-  }
-
-  async checkStorage() {
-    const sensies = await getDataFromAsyncStorage(SENSIES)
-    let flow = 0
-    let block = 0
-    if (!sensies)
-      return true
-    for (let i = 0; i < sensies.length; i++) {
-      if (sensies[i].flow)
-        flow++
-      else
-        block++
-    }
-    if (flow >= 3 && block >= 3)
-        return true 
-    return false
+    return (
+      'sensieID' +
+      Date.now().toString(36) +
+      Math.random().toString(36).substring(2)
+    );
   }
 
   async captureSensie(flow: Boolean, onSensorData?: (data: SensorData) => {}) {
-
     if (!this.canCaptureSensie) {
-      return {error: "Sensies are full enough to evaluate"}
+      return undefined;
     }
-    
+
     const subGyro = gyroscope.subscribe(({ x, y, z }) => {
       this.sensorData.gyroX.push(x);
       this.sensorData.gyroY.push(y);
@@ -110,46 +127,54 @@ export class CalibrationSession {
       if (onSensorData) onSensorData(this.sensorData);
     }); // Start sensors
 
-    setTimeout(async () => {
-      subGyro.unsubscribe();
-      subAcc.unsubscribe();
-      const { whipCount, avgFlatCrest } = await whipCounter({
-        yaw: this.sensorData.gyroZ,
-      });
-      if (whipCount == 3) {
-        
-        this.currentSensie = {
-          whipCount: whipCount,
-          signal: avgFlatCrest,
-          sensorData: this.sensorData,
-          flow: flow
+    const prom = new Promise((resolve) => {
+      setTimeout(async () => {
+        this.sensorData.gyroX.map((x) => Math.round(x * 100) / 100);
+        this.sensorData.gyroY.map((x) => Math.round(x * 100) / 100);
+        this.sensorData.gyroZ.map((x) => Math.round(x * 100) / 100);
+        this.sensorData.accelX.map((x) => Math.round(x * 100) / 100);
+        this.sensorData.accelY.map((x) => Math.round(x * 100) / 100);
+        this.sensorData.accelZ.map((x) => Math.round(x * 100) / 100);
+
+        subGyro.unsubscribe();
+        subAcc.unsubscribe();
+
+        const { whipCount, avgFlatCrest } = await whipCounter({
+          yaw: this.sensorData.gyroZ,
+        });
+
+        if (whipCount == 3) {
+          this.currentSensie = {
+            whipCount: whipCount,
+            signal: avgFlatCrest,
+            sensorData: this.sensorData,
+            flow: flow,
+          };
+
+          await addSensie(this.currentSensie);
+
+          this.canCaptureSensie = !(await checkStorage());
+
+          this.sensorData = {
+            gyroX: [],
+            gyroY: [],
+            gyroZ: [],
+            accelX: [],
+            accelY: [],
+            accelZ: [],
+          }; // Reset sensor data
         }
 
-        await addSensie(this.currentSensie)
+        const retSensie = {
+          id: this.genSensieId(),
+          whips: whipCount,
+          valid: whipCount == 3,
+        };
 
-        this.canCaptureSensie = !(await this.checkStorage())
-        
-        this.sensorData = {
-          gyroX: [],
-          gyroY: [],
-          gyroZ: [],
-          accelX: [],
-          accelY: [],
-          accelZ: [],
-        }; // Reset sensor data
-
-
-      }
-
-      const retSensie = {
-        id: this.genSensieId(),
-        whips: whipCount,
-        valid: whipCount == 3,
-      }; // Sensie containing the minimal informations for checking validation.
-
-      return retSensie;
-
-    }, 3000);
+        resolve(retSensie);
+      }, 3000);
+    });
+    return prom;
   }
 }
 
@@ -173,68 +198,49 @@ export class SensieEngine {
       accelX: [],
       accelY: [],
       accelZ: [],
-    }
-    this.userId = ''
+    };
+    this.userId = '';
   }
 
   async connect() {
-    this.canEvaluate = await this.checkStorage()
+    this.canEvaluate = await checkStorage();
     const ret = new Promise((resolve, reject) => {
-      if (this.accessToken == '') {
+      if (this.accessToken) {
         this.canRecalibrate = this.canEvaluate;
         resolve('Successfully connected');
       } else {
         reject('Connection failed');
       }
     });
-    return ret
+    return ret;
   }
 
-  async checkStorage() {
-    const sensies = await getDataFromAsyncStorage(SENSIES)
-    let flow = 0
-    let block = 0
-    if (!sensies)
-      return true
-    for (let i = 0; i < sensies.length; i++) {
-      if (sensies[i].flow)
-        flow++
-      else
-        block++
-    }
-    if (flow == 3 && block == 3)
-        return true 
-    return false
-  }
-
-  startCalibration (
-    calibrationInit: CalibrationInit
-  ): Object {
-
+  startCalibration(calibrationInit: CalibrationInit): Object {
     if (this.canRecalibrate) {
-      this.userId = calibrationInit.userId
+      this.userId = calibrationInit.userId;
       this.onEnds = calibrationInit.onEnds;
       return new CalibrationSession();
     }
-    return {error: "There are stored sensies already. Please reset first"};
-    
+    return { error: 'There are stored sensies already. Please reset first' };
   }
 
   async resetCalibration() {
     this.onEnds = () => {};
-    await resetAllData()
+    await resetAllData();
   }
 
   genSensieId() {
-    return 'sensieID' + Date.now().toString(36) + Math.random().toString(36).substring(2);
+    return (
+      'sensieID' +
+      Date.now().toString(36) +
+      Math.random().toString(36).substring(2)
+    );
   }
 
   async captureSensie(userId: String, onSensorData?: (data: SensorData) => {}) {
+    if (userId != this.userId) return undefined;
 
-    if (userId != this.userId)
-      return undefined
-
-    const sensies = await getDataFromAsyncStorage(SENSIES)
+    const sensies = await getDataFromAsyncStorage(SENSIES);
 
     const subGyro = gyroscope.subscribe(({ x, y, z }) => {
       this.sensorData.gyroX.push(x);
@@ -256,13 +262,12 @@ export class SensieEngine {
         yaw: this.sensorData.gyroZ,
       });
       if (whipCount == 3) {
-        
         const sensie = {
           whipCount: whipCount,
           signal: avgFlatCrest,
           sensorData: this.sensorData,
-        }
-        const { flowing } = await evaluateSensie(sensie, sensies)
+        };
+        const { flowing } = await evaluateSensie(sensie, sensies);
 
         this.sensorData = {
           gyroX: [],
@@ -277,17 +282,16 @@ export class SensieEngine {
           id: this.genSensieId(),
           whips: whipCount,
           flowing: flowing,
-          agree: -1
+          agree: -1,
         };
 
-        const calibration_strength = await siganlStrength(sensies)
-        this.onEnds({calibration_strength: calibration_strength})
+        const calibration_strength = await siganlStrength(sensies);
+        this.onEnds({ calibration_strength: calibration_strength });
         return retSensie;
       }
 
-      return {error: "WhipCount is not 3"}
-
+      return { error: 'WhipCount is not 3' };
     }, 3000);
-    return undefined
+    return undefined;
   }
 }

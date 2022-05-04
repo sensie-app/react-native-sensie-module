@@ -8,8 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		C65ED6142B69CB358FF4ED33 /* Pods_SensieModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0702F28BD16DB263A94E8CE9 /* Pods_SensieModule.framework */; };
+		DCA14CAC2822CDEF005F5CC0 /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA14CAB2822CDE5005F5CC0 /* libRNCAsyncStorage.a */; };
 		F4FF95D7245B92E800C19C63 /* SensieModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /* SensieModule.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DCA14CAA2822CDE5005F5CC0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DCA14CA62822CDE5005F5CC0 /* RNCAsyncStorage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCAsyncStorage;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		58B511D91A9E6C8500147676 /* CopyFiles */ = {
@@ -29,6 +40,7 @@
 		A7C0847299AD285C35DA6526 /* Pods-SensieModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SensieModule.release.xcconfig"; path = "Target Support Files/Pods-SensieModule/Pods-SensieModule.release.xcconfig"; sourceTree = "<group>"; };
 		AD3EBEDBA7B402D91AA897A9 /* Pods-SensieModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SensieModule.debug.xcconfig"; path = "Target Support Files/Pods-SensieModule/Pods-SensieModule.debug.xcconfig"; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* SensieModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensieModule.m; sourceTree = "<group>"; };
+		DCA14CA62822CDE5005F5CC0 /* RNCAsyncStorage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCAsyncStorage.xcodeproj; path = "../node_modules/@react-native-async-storage/async-storage/ios/RNCAsyncStorage.xcodeproj"; sourceTree = "<group>"; };
 		F4FF95D5245B92E700C19C63 /* SensieModule-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SensieModule-Bridging-Header.h"; sourceTree = "<group>"; };
 		F4FF95D6245B92E800C19C63 /* SensieModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensieModule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -38,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCA14CAC2822CDEF005F5CC0 /* libRNCAsyncStorage.a in Frameworks */,
 				C65ED6142B69CB358FF4ED33 /* Pods_SensieModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -56,6 +69,7 @@
 		3A7D3B13F39A517FAF51772B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DCA14CA62822CDE5005F5CC0 /* RNCAsyncStorage.xcodeproj */,
 				0702F28BD16DB263A94E8CE9 /* Pods_SensieModule.framework */,
 			);
 			name = Frameworks;
@@ -67,7 +81,6 @@
 				AD3EBEDBA7B402D91AA897A9 /* Pods-SensieModule.debug.xcconfig */,
 				A7C0847299AD285C35DA6526 /* Pods-SensieModule.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -81,6 +94,14 @@
 				51F1651B7570B4C40CE3AC6E /* Pods */,
 				3A7D3B13F39A517FAF51772B /* Frameworks */,
 			);
+			sourceTree = "<group>";
+		};
+		DCA14CA72822CDE5005F5CC0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DCA14CAB2822CDE5005F5CC0 /* libRNCAsyncStorage.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,12 +150,28 @@
 			mainGroup = 58B511D21A9E6C8500147676;
 			productRefGroup = 58B511D21A9E6C8500147676;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = DCA14CA72822CDE5005F5CC0 /* Products */;
+					ProjectRef = DCA14CA62822CDE5005F5CC0 /* RNCAsyncStorage.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				58B511DA1A9E6C8500147676 /* SensieModule */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		DCA14CAB2822CDE5005F5CC0 /* libRNCAsyncStorage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCAsyncStorage.a;
+			remoteRef = DCA14CAA2822CDE5005F5CC0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		27CA52421034724FADABF001 /* [CP] Check Pods Manifest.lock */ = {
