@@ -109,7 +109,7 @@ export class CalibrationSession {
     );
   }
 
-  async captureSensie(flow: Boolean, onSensorData?: (data: SensorData) => {}) {
+  async captureSensie(captureSensieInput: any) {
     if (!this.canCaptureSensie) {
       return undefined;
     }
@@ -118,13 +118,13 @@ export class CalibrationSession {
       this.sensorData.gyroX.push(x);
       this.sensorData.gyroY.push(y);
       this.sensorData.gyroZ.push(z);
-      if (onSensorData) onSensorData(this.sensorData);
+      if (captureSensieInput.onSensorData) captureSensieInput.onSensorData(this.sensorData);
     });
     const subAcc = accelerometer.subscribe(({ x, y, z }) => {
       this.sensorData.accelX.push(x);
       this.sensorData.accelY.push(y);
       this.sensorData.accelZ.push(z);
-      if (onSensorData) onSensorData(this.sensorData);
+      if (captureSensieInput.onSensorData) captureSensieInput.onSensorData(this.sensorData);
     }); // Start sensors
 
     const prom = new Promise((resolve) => {
@@ -148,7 +148,7 @@ export class CalibrationSession {
             whipCount: whipCount,
             signal: avgFlatCrest,
             sensorData: this.sensorData,
-            flow: flow,
+            flow: captureSensieInput.flow,
           };
 
           await addSensie(this.currentSensie);
