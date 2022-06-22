@@ -12,6 +12,7 @@ import type {
   EvaluateSensieReturn,
   SensieEngineInit,
   CalibrationInit,
+  CaptureSensieInput,
 } from './types';
 
 const LINKING_ERROR =
@@ -73,14 +74,17 @@ const checkStorage = async () => {
   return false;
 };
 
+const BASE_URL = "https://0x7xrifn76.execute-api.us-east-1.amazonaws.com/dev"
+
 export class CalibrationSession {
-  id: String;
+  id: string;
   currentSensie: Object;
   sensorData: SensorData;
   canCaptureSensie: Boolean;
+  accessToken: string;
 
-  constructor() {
-    this.id = this.genSessionId();
+  constructor(accessToken: string, sessionId: string) {
+    this.id = sessionId
     this.currentSensie = {};
     this.sensorData = {
       gyroX: [],
@@ -91,25 +95,10 @@ export class CalibrationSession {
       accelZ: [],
     };
     this.canCaptureSensie = true;
+    this.accessToken = accessToken
   }
 
-  genSessionId() {
-    return (
-      'sessionID' +
-      Date.now().toString(36) +
-      Math.random().toString(36).substring(2)
-    );
-  }
-
-  genSensieId() {
-    return (
-      'sensieID' +
-      Date.now().toString(36) +
-      Math.random().toString(36).substring(2)
-    );
-  }
-
-  async captureSensie(captureSensieInput: any) {
+  async captureSensie(captureSensieInput: CaptureSensieInput) {
     if (!this.canCaptureSensie) {
       return undefined;
     }
@@ -129,15 +118,15 @@ export class CalibrationSession {
 
     const prom = new Promise((resolve) => {
       setTimeout(async () => {
+        subGyro.unsubscribe();
+        subAcc.unsubscribe();
+
         this.sensorData.gyroX.map((x) => Math.round(x * 100) / 100);
         this.sensorData.gyroY.map((x) => Math.round(x * 100) / 100);
         this.sensorData.gyroZ.map((x) => Math.round(x * 100) / 100);
         this.sensorData.accelX.map((x) => Math.round(x * 100) / 100);
         this.sensorData.accelY.map((x) => Math.round(x * 100) / 100);
         this.sensorData.accelZ.map((x) => Math.round(x * 100) / 100);
-
-        subGyro.unsubscribe();
-        subAcc.unsubscribe();
 
         const { whipCount, avgFlatCrest } = await whipCounter({
           yaw: this.sensorData.gyroZ,
@@ -165,8 +154,36 @@ export class CalibrationSession {
           }; // Reset sensor data
         }
 
+        const path = "/session/" + this.id + "/sensie"
+
+        const API_TOKEN = this.accessToken
+        const headers = new Headers()
+        headers.append("Content-Type", "application/json");
+        headers.append("Accept", "application/json");
+        headers.append("X-api-key", API_TOKEN)
+
+        const body = {"accelerometerX":this.sensorData.accelX,
+        "accelerometerY":this.sensorData.accelY,
+        "accelerometerZ":this.sensorData.accelZ,
+        "gyroscopeX":this.sensorData.gyroX,
+        "gyroscopeY":this.sensorData.gyroY,
+        "gyroscopeZ":this.sensorData.gyroZ,
+        "whips":whipCount,
+        "flowing":captureSensieInput.flow ? 1 : -1,
+        "agreement":1}
+
+        const option = {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: headers
+        }
+
+        const res = await fetch(BASE_URL + path, option)
+        const resJSON = await res.json()
+        const sensieId = resJSON.data.sensie.id
+
         const retSensie = {
-          id: this.genSensieId(),
+          id: sensieId,
           whips: whipCount,
           valid: whipCount == 3,
         };
@@ -179,7 +196,7 @@ export class CalibrationSession {
 }
 
 export class SensieEngine {
-  accessToken: String;
+  accessToken: string;
   canRecalibrate: Boolean;
   onEnds: (result: Object) => void;
   canEvaluate: Boolean;
@@ -215,11 +232,31 @@ export class SensieEngine {
     return ret;
   }
 
-  startCalibration(calibrationInit: CalibrationInit): Object {
+  async startCalibration(calibrationInit: CalibrationInit): Promise<any> {
     if (this.canRecalibrate) {
       this.userId = calibrationInit.userId;
       this.onEnds = calibrationInit.onEnds;
-      return new CalibrationSession();
+
+      const path = "/session"
+
+      const API_TOKEN = this.accessToken
+      
+      const headers = new Headers()
+      headers.append("X-api-key", API_TOKEN)
+
+      const body = {userId: this.userId};
+
+      const option = {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: headers
+      }
+
+      const res = await fetch(BASE_URL + path, option)
+      const resJSON = await res.json()
+      const sessionId = resJSON.data.session.id
+
+      return new CalibrationSession(this.accessToken, sessionId);
     }
     return { error: 'There are stored sensies already. Please reset first' };
   }

@@ -38,7 +38,7 @@ await s.connect()
 
 ### Calibration
 ```js
-calibrationSession = s.startCalibration({
+calibrationSession = await s.startCalibration({
     userId,
     onEnds: (result) => {
     }

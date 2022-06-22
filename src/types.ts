@@ -1,7 +1,7 @@
 // Types for Sensie Engine
 
 type SensieEngineInit = {
-  accessToken: String
+  accessToken: string
 }
 
 type CalibrationInit = {
@@ -28,4 +28,9 @@ type EvaluateSensieReturn = {
   ratio: number
 }
 
-export { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit, CalibrationInit };
+type CaptureSensieInput = {
+  flow: boolean,
+  onSensorData?: (data: any) => {}
+}
+
+export { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit, CalibrationInit, CaptureSensieInput };
