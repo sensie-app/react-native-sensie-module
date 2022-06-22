@@ -1,11 +1,11 @@
-# Uncomment the next line to define a global platform for your project
+# # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'SensieModule' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for SensieModule
-  pod 'RNSensors', :path => '../node_modules/react-native-sensors'
-  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
-end
+# target 'SensieModule' do
+#   # Comment the next line if you don't want to use dynamic frameworks
+#   use_frameworks!
+  
+#   # Pods for SensieModule
+#   pod 'RNSensors', :path => '../node_modules/react-native-sensors'
+#   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+# end
