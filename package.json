@@ -1,6 +1,6 @@
 {
   "name": "react-native-sensie-module",
-  "version": "0.1.15",
+  "version": "0.1.13",
   "description": "Sensie SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -145,7 +145,7 @@
     ]
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.17.6",
+    "@react-native-async-storage/async-storage": "^1.17.3",
     "react-native-sensors": "^7.3.5"
   }
 }

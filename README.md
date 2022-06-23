@@ -6,12 +6,10 @@
 
 ## Installation
 
-&nbsp;&nbsp; Install via yarn. Link it and install dependencies for ios.
+&nbsp;&nbsp; Install via yarn.
 
 ```sh
 yarn add react-native-sensie-module
-npx react-native link
-cd ios && pod install
 ```
 
 
@@ -81,7 +79,7 @@ const sensie = await calibrationSession.captureSensie({
 ### Resetting
 &nbsp;&nbsp; Reset storage if you want to recalibrate.
 ```js
-await s.resetCalibration();
+s.resetCalibration();
 ```
 
 

@@ -4,8 +4,8 @@ type SensieEngineInit = {
   accessToken: string
 }
 
-type CalibrationInput = {
-  userId: string
+type CalibrationInit = {
+  userId: String
   onEnds: (result: Object) => void
 }
 
@@ -33,15 +33,4 @@ type CaptureSensieInput = {
   onSensorData?: (data: any) => {}
 }
 
-type CaptureEvaluateSensieInput = {
-  userId: string, 
-  onSensorData?: (data: any) => {}
-}
-
-enum Agreement {
-  Agree = 1,
-  Disagree = -1,
-  AgreeAfterReflecting = 2
-}
-
-export { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit, CalibrationInput, CaptureSensieInput, CaptureEvaluateSensieInput, Agreement};
+export { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit, CalibrationInit, CaptureSensieInput };
