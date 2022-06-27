@@ -1,13 +1,13 @@
 // Types for Sensie Engine
 
 type SensieEngineInit = {
-  accessToken: string
-}
+  accessToken: string;
+};
 
 type CalibrationInput = {
-  userId: string
-  onEnds: (result: Object) => void
-}
+  userId: string;
+  onEnds: (result: Object) => void;
+};
 
 type WhipCounterReturn = {
   avgFlatCrest: number[];
@@ -24,24 +24,33 @@ type SensorData = {
 };
 
 type EvaluateSensieReturn = {
-  flowing: number
-  ratio: number
-}
+  flowing: number;
+  ratio: number;
+};
 
 type CaptureSensieInput = {
-  flow: boolean,
-  onSensorData?: (data: any) => {}
-}
+  flow: boolean;
+  onSensorData?: (data: any) => void;
+};
 
 type CaptureEvaluateSensieInput = {
-  userId: string, 
-  onSensorData?: (data: any) => {}
-}
+  userId: string;
+  onSensorData?: (data: any) => void;
+};
 
 enum Agreement {
   Agree = 1,
   Disagree = -1,
-  AgreeAfterReflecting = 2
+  AgreeAfterReflecting = 2,
 }
 
-export { WhipCounterReturn, SensorData, EvaluateSensieReturn, SensieEngineInit, CalibrationInput, CaptureSensieInput, CaptureEvaluateSensieInput, Agreement};
+export {
+  WhipCounterReturn,
+  SensorData,
+  EvaluateSensieReturn,
+  SensieEngineInit,
+  CalibrationInput,
+  CaptureSensieInput,
+  CaptureEvaluateSensieInput,
+  Agreement,
+};
