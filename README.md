@@ -107,4 +107,3 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 ## License
 
 Proprietary Software
-# SensieAlgorithmSwift

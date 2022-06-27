@@ -13,7 +13,7 @@ import type {
   SensieEngineInit,
   CalibrationInput,
   CaptureSensieInput,
-  CaptureEvaluateSensieInput
+  CaptureEvaluateSensieInput,
 } from './types';
 
 const LINKING_ERROR =
@@ -75,7 +75,7 @@ const checkStorage = async () => {
   return false;
 };
 
-const BASE_URL = "https://0x7xrifn76.execute-api.us-east-1.amazonaws.com/dev"
+const BASE_URL = 'https://0x7xrifn76.execute-api.us-east-1.amazonaws.com/dev';
 
 export class CalibrationSession {
   id: string;
@@ -85,7 +85,7 @@ export class CalibrationSession {
   accessToken: string;
 
   constructor(accessToken: string, sessionId: string) {
-    this.id = sessionId
+    this.id = sessionId;
     this.currentSensie = {};
     this.sensorData = {
       gyroX: [],
@@ -96,7 +96,7 @@ export class CalibrationSession {
       accelZ: [],
     };
     this.canCaptureSensie = true;
-    this.accessToken = accessToken
+    this.accessToken = accessToken;
   }
 
   async captureSensie(captureSensieInput: CaptureSensieInput) {
@@ -108,13 +108,15 @@ export class CalibrationSession {
       this.sensorData.gyroX.push(x);
       this.sensorData.gyroY.push(y);
       this.sensorData.gyroZ.push(z);
-      if (captureSensieInput.onSensorData) captureSensieInput.onSensorData(this.sensorData);
+      if (captureSensieInput.onSensorData)
+        captureSensieInput.onSensorData(this.sensorData);
     });
     const subAcc = accelerometer.subscribe(({ x, y, z }) => {
       this.sensorData.accelX.push(x);
       this.sensorData.accelY.push(y);
       this.sensorData.accelZ.push(z);
-      if (captureSensieInput.onSensorData) captureSensieInput.onSensorData(this.sensorData);
+      if (captureSensieInput.onSensorData)
+        captureSensieInput.onSensorData(this.sensorData);
     }); // Start sensors
 
     const prom = new Promise((resolve, reject) => {
@@ -145,6 +147,42 @@ export class CalibrationSession {
 
           this.canCaptureSensie = !(await checkStorage());
 
+          const path = '/session/' + this.id + '/sensie';
+
+          const API_TOKEN = this.accessToken;
+          const headers = new Headers();
+          headers.append('Content-Type', 'application/json');
+          headers.append('Accept', 'application/json');
+          headers.append('X-api-key', API_TOKEN);
+
+          const body = {
+            accelerometerX: this.sensorData.accelX,
+            accelerometerY: this.sensorData.accelY,
+            accelerometerZ: this.sensorData.accelZ,
+            gyroscopeX: this.sensorData.gyroX,
+            gyroscopeY: this.sensorData.gyroY,
+            gyroscopeZ: this.sensorData.gyroZ,
+            whips: whipCount,
+            flowing: captureSensieInput.flow ? 1 : -1,
+            agreement: 1,
+          };
+
+          const option = {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: headers,
+          };
+
+          const res = await fetch(BASE_URL + path, option);
+          const resJSON = await res.json();
+          const sensieId = resJSON.data.sensie.id;
+
+          const retSensie = {
+            id: sensieId,
+            whips: whipCount,
+            valid: whipCount == 3,
+          };
+
           this.sensorData = {
             gyroX: [],
             gyroY: [],
@@ -154,44 +192,9 @@ export class CalibrationSession {
             accelZ: [],
           }; // Reset sensor data
 
-
-        const path = "/session/" + this.id + "/sensie"
-
-        const API_TOKEN = this.accessToken
-        const headers = new Headers()
-        headers.append("Content-Type", "application/json");
-        headers.append("Accept", "application/json");
-        headers.append("X-api-key", API_TOKEN)
-
-        const body = {"accelerometerX":this.sensorData.accelX,
-        "accelerometerY":this.sensorData.accelY,
-        "accelerometerZ":this.sensorData.accelZ,
-        "gyroscopeX":this.sensorData.gyroX,
-        "gyroscopeY":this.sensorData.gyroY,
-        "gyroscopeZ":this.sensorData.gyroZ,
-        "whips":whipCount,
-        "flowing":captureSensieInput.flow ? 1 : -1,
-        "agreement":1}
-
-        const option = {
-          method: "POST",
-          body: JSON.stringify(body),
-          headers: headers
+          resolve(retSensie);
         }
-
-        const res = await fetch(BASE_URL + path, option)
-        const resJSON = await res.json()
-        const sensieId = resJSON.data.sensie.id
-
-        const retSensie = {
-          id: sensieId,
-          whips: whipCount,
-          valid: whipCount == 3,
-        };
-
-        resolve(retSensie);
-      }
-      reject({ message: 'WhipCount is not 3' });
+        reject({ message: 'Whipcount is not 3.' });
       }, 3000);
     });
     return prom;
@@ -242,25 +245,27 @@ export class SensieEngine {
       this.userId = calibrationInput.userId;
       this.onEnds = calibrationInput.onEnds;
 
-      const path = "/session"
+      const path = '/session';
 
-      const API_TOKEN = this.accessToken
-      
-      const headers = new Headers()
-      headers.append("X-api-key", API_TOKEN)
+      const API_TOKEN = this.accessToken;
 
-      const body = {userId: this.userId};
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Accept', 'application/json');
+      headers.append('X-api-key', API_TOKEN);
+
+      const body = { userId: this.userId, Type: 'calibration' };
 
       const option = {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(body),
-        headers: headers
-      }
+        headers: headers,
+      };
 
-      const res = await fetch(BASE_URL + path, option)
-      const resJSON = await res.json()
-      const sessionId = resJSON.data.session.id
-      this.sessionId = sessionId
+      const res = await fetch(BASE_URL + path, option);
+      const resJSON = await res.json();
+      const sessionId = resJSON.data.session.id;
+      this.sessionId = sessionId;
 
       return new CalibrationSession(this.accessToken, sessionId);
     }
@@ -280,8 +285,28 @@ export class SensieEngine {
     );
   }
 
-  async captureSensie(captureSensieInput: CaptureEvaluateSensieInput) {
-    if (captureSensieInput.userId != this.userId) return undefined;
+  async captureSensie(
+    captureSensieInput: CaptureEvaluateSensieInput
+  ): Promise<any> {
+    if (captureSensieInput.userId != this.userId)
+      return { message: 'User id is not valid.' };
+
+    const path = '/session';
+    const API_TOKEN = this.accessToken;
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('X-api-key', API_TOKEN);
+    const body = { userId: this.userId, Type: 'evaluation' };
+    const option = {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: headers,
+    };
+    const res = await fetch(BASE_URL + path, option);
+    const resJSON = await res.json();
+    const sessionId = resJSON.data.session.id;
+    this.sessionId = sessionId;
 
     const sensies = await getDataFromAsyncStorage(SENSIES);
 
@@ -289,13 +314,15 @@ export class SensieEngine {
       this.sensorData.gyroX.push(x);
       this.sensorData.gyroY.push(y);
       this.sensorData.gyroZ.push(z);
-      if (captureSensieInput.onSensorData) captureSensieInput.onSensorData(this.sensorData);
+      if (captureSensieInput.onSensorData)
+        captureSensieInput.onSensorData(this.sensorData);
     });
     const subAcc = accelerometer.subscribe(({ x, y, z }) => {
       this.sensorData.accelX.push(x);
       this.sensorData.accelY.push(y);
       this.sensorData.accelZ.push(z);
-      if (captureSensieInput.onSensorData) captureSensieInput.onSensorData(this.sensorData);
+      if (captureSensieInput.onSensorData)
+        captureSensieInput.onSensorData(this.sensorData);
     }); // Start sensors
 
     const prom = new Promise((resolve, reject) => {
@@ -320,7 +347,44 @@ export class SensieEngine {
             sensorData: this.sensorData,
           };
           const { flowing } = await evaluateSensie(sensie, sensies);
-  
+
+          const path = '/session/' + this.sessionId + '/sensie';
+
+          const API_TOKEN = this.accessToken;
+          const headers = new Headers();
+          headers.append('Content-Type', 'application/json');
+          headers.append('Accept', 'application/json');
+          headers.append('X-api-key', API_TOKEN);
+
+          const body = {
+            accelerometerX: this.sensorData.accelX,
+            accelerometerY: this.sensorData.accelY,
+            accelerometerZ: this.sensorData.accelZ,
+            gyroscopeX: this.sensorData.gyroX,
+            gyroscopeY: this.sensorData.gyroY,
+            gyroscopeZ: this.sensorData.gyroZ,
+            whips: whipCount,
+            flowing: 1, 
+            agreement: 1,
+          };
+
+          const option = {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: headers,
+          };
+
+          const res = await fetch(BASE_URL + path, option);
+          const resJSON = await res.json();
+          const sensieId = resJSON.data.sensie.id;
+
+          const retSensie = {
+            id: sensieId,
+            whips: whipCount,
+            flowing: flowing,
+            agreement: undefined,
+          };
+
           this.sensorData = {
             gyroX: [],
             gyroY: [],
@@ -329,51 +393,16 @@ export class SensieEngine {
             accelY: [],
             accelZ: [],
           }; // Reset sensor data
-          
-          const path = "/session/" + this.sessionId + "/sensie"
 
-        const API_TOKEN = this.accessToken
-        const headers = new Headers()
-        headers.append("Content-Type", "application/json");
-        headers.append("Accept", "application/json");
-        headers.append("X-api-key", API_TOKEN)
-
-        const body = {"accelerometerX":this.sensorData.accelX,
-        "accelerometerY":this.sensorData.accelY,
-        "accelerometerZ":this.sensorData.accelZ,
-        "gyroscopeX":this.sensorData.gyroX,
-        "gyroscopeY":this.sensorData.gyroY,
-        "gyroscopeZ":this.sensorData.gyroZ,
-        "whips":whipCount,
-        "flowing":1, // Need to be fixed !! Backend side should be optional
-        "agreement":1} // This one too
-
-        const option = {
-          method: "POST",
-          body: JSON.stringify(body),
-          headers: headers
-        }
-
-        const res = await fetch(BASE_URL + path, option)
-        const resJSON = await res.json()
-        const sensieId = resJSON.data.sensie.id
-
-          const retSensie = {
-            id: sensieId,
-            whips: whipCount,
-            flowing: flowing,
-            agreement: undefined,
-          };
-  
           const calibration_strength = await siganlStrength(sensies);
           this.onEnds({ calibration_strength: calibration_strength });
           resolve(retSensie);
         }
-  
-        reject({ message: 'WhipCount is not 3' });
+
+        reject({ message: 'Whipcount is not 3.' });
       }, 3000);
-    })
-    
+    });
+
     return prom;
   }
 }

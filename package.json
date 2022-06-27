@@ -36,13 +36,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/joonito/react-native-sensie-module",
+  "repository": "https://github.com/sensie-app/react-native-sensie-module",
   "author": "Sensie <48269210+joonito@users.noreply.github.com> (https://github.com/joonito)",
   "license": "Proprietary License",
   "bugs": {
-    "url": "https://github.com/joonito/react-native-sensie-module/issues"
+    "url": "https://github.com/sensie-app/react-native-sensie-module/issues"
   },
-  "homepage": "https://github.com/joonito/react-native-sensie-module#readme",
+  "homepage": "https://github.com/sensie-app/react-native-sensie-module#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
