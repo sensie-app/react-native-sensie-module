@@ -3,3 +3,5 @@ plugins:
   - jekyll-remote-theme
 # baseurl: '/react-native-sensie-module/docs'
 # url: 'https://sensie-app.github.io'
+
+theme: jekyll-theme-cayman
