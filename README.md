@@ -1,7 +1,7 @@
 # react-native-sensie-module
 
-&nbsp; React Native Sensie SDK MVP version for iOS. Android binary will be added soon.
-
+&nbsp; React Native Sensie SDK MVP version for iOS. Android binary will be added soon.<br/>
+[Docs](https://sensie-app.github.io/react-native-sensie-module/)
 
 
 ## Installation
