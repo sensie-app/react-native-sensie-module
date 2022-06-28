@@ -1,11 +1,7 @@
 import { NativeModules, Platform } from 'react-native';
-import type {
-  WhipCounterReturn,
-  EvaluateSensieReturn,
-} from './types';
-export {SensieEngine} from './sensieEngine'
-export {CalibrationSession} from './calibrationSession'
-
+import type { WhipCounterReturn, EvaluateSensieReturn } from './types';
+export { SensieEngine } from './sensieEngine';
+export { CalibrationSession } from './calibrationSession';
 
 const LINKING_ERROR =
   `The package 'react-native-sensie-module' doesn't seem to be linked. Make sure: \n\n` +
@@ -16,13 +12,13 @@ const LINKING_ERROR =
 const SensieModule = NativeModules.SensieModule
   ? NativeModules.SensieModule
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
 export function multiply(a: number, b: number): Promise<number> {
   return SensieModule.multiply(a, b);
