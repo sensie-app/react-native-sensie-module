@@ -2,6 +2,13 @@ import { NativeModules, Platform } from 'react-native';
 import type { WhipCounterReturn, EvaluateSensieReturn } from './types';
 export { SensieEngine } from './sensieEngine';
 export { CalibrationSession } from './calibrationSession';
+export { Sensie } from './sensie';
+
+export enum Agreement {
+  Agree = 1,
+  Disagree = -1,
+  AgreeAfterReflecting = 2,
+}
 
 const LINKING_ERROR =
   `The package 'react-native-sensie-module' doesn't seem to be linked. Make sure: \n\n` +
