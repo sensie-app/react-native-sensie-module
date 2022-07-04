@@ -94,7 +94,6 @@ const sensie = await s.captureSensie({
 
 ```
 &nbsp;&nbsp; **sensie** object will be an object with the following properties:
-- **id**: the id of the sensie
 - **whips**: the number of whips
 - **flowing**: the result of the evaluation (true or false)
 

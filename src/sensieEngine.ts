@@ -14,6 +14,7 @@ import { BASE_URL } from './request';
 import { CalibrationSession } from './calibrationSession';
 import { whipCounter, siganlStrength, evaluateSensie } from './index';
 import { gyroscope, accelerometer } from 'react-native-sensors';
+import { Sensie } from './sensie';
 
 export class SensieEngine {
   accessToken: string;
@@ -202,15 +203,10 @@ export class SensieEngine {
           };
           const { flowing } = await evaluateSensie(sensie, sensies);
 
-          const resJSON = await this.storeSensieRequest(whipCount, flowing);
-          const sensieId = resJSON.data.sensie.id;
-
-          const retSensie = {
-            id: sensieId,
-            whips: whipCount,
-            flowing: flowing,
-            agreement: undefined,
-          };
+          const retSensie = new Sensie(whipCount, flowing, this.sensorData, {
+            sessionId: this.sessionId,
+            accessToken: this.accessToken,
+          });
 
           const calibration_strength = await siganlStrength(sensies);
           this.onEnds({ calibration_strength: calibration_strength });
