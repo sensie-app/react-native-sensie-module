@@ -47,6 +47,9 @@ export class SensieEngine {
     const ret = new Promise((resolve, reject) => {
       if (this.accessToken) {
         this.canRecalibrate = this.canEvaluate;
+        const resJSON: any = this.startSessionRequest('calibration')
+        const sessionId = resJSON.data.session.id
+        this.sessionId = sessionId
         resolve('Successfully connected');
       } else {
         reject('Connection failed');
@@ -55,17 +58,12 @@ export class SensieEngine {
     return ret;
   }
 
-  async startCalibration(calibrationInput: CalibrationInput): Promise<any> {
+  startCalibration(calibrationInput: CalibrationInput): CalibrationSession | object {
     if (this.canRecalibrate) {
       this.userId = calibrationInput.userId;
       this.onEnds = calibrationInput.onEnds;
 
-      const resJSON = await this.startSessionRequest('calibration');
-      const sessionId = resJSON.data.session.id;
-
-      this.sessionId = sessionId;
-
-      return new CalibrationSession(this.accessToken, sessionId);
+      return new CalibrationSession(this.accessToken, this.sessionId);
     }
     return { message: 'There are stored sensies already. Please reset first.' };
   }
@@ -116,7 +114,7 @@ export class SensieEngine {
     subAcc.unsubscribe();
   }
 
-  async startSessionRequest(type: string) {
+  async startSessionRequest(type: string) : Promise<any> {
     const path = '/session';
 
     const body = { userId: this.userId, Type: type };
@@ -134,7 +132,7 @@ export class SensieEngine {
       headers: headers,
     };
 
-    const res = await fetch(BASE_URL + path, option);
+    const res = await fetch(BASE_URL + path, option); 
     return await res.json();
   }
 
