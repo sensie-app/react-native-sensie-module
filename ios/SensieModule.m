@@ -14,10 +14,10 @@ RCT_EXTERN_METHOD(subtract:(float)a withB:(float)b
 RCT_EXTERN_METHOD(whipCounter:(NSDictionary)p
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
-RCT_EXTERN_METHOD(evaluateSensie:(NSDictionary)sensie withSensies:([NSDictionary])sensies
+RCT_EXTERN_METHOD(evaluateSensie:(NSDictionary)sensie withSensies:(NSDictionaryArray)sensies
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
-RCT_EXTERN_METHOD(signalStrength:([NSDictionary])sensies
+RCT_EXTERN_METHOD(signalStrength:(NSDictionaryArray)sensies
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 

@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/SensieFramework-Swift.h</key>
 		<data>
-		U8DibGl09phZSG7+Bt42JFw+hm0=
+		AIJWgjYif5i93nrL6kTxu72L800=
 		</data>
 		<key>Headers/SensieFramework.h</key>
 		<data>
@@ -14,31 +14,31 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		dYkvBDjGaH1IRN9mvlCdbHFWx7Y=
+		pWarXFqEHx922uWSloPdbd8XzO0=
 		</data>
 		<key>Modules/SensieFramework.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		D4/Xa2Zx3LFIkOWoXDQxnisAFUA=
+		YKlCB6gvIMPR+ooGS79QX6/KQUA=
 		</data>
 		<key>Modules/SensieFramework.swiftmodule/Project/armv7-apple-ios.swiftsourceinfo</key>
 		<data>
-		LEvlITpI2w5P9LQICJNjnUWGKJg=
+		b2YCPUuke10fTr7kxWJs+7Qh9fA=
 		</data>
 		<key>Modules/SensieFramework.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		Jb5i/XaUKxZLvDNWWsRpgLzkgFY=
+		ONyF/sPrbNVRAee08Z3XRF5IPhI=
 		</data>
 		<key>Modules/SensieFramework.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		Z4eppsQYtYpNVA7VWCgeZTktOdE=
+		Lpbl5LMFtCyVpdpIQas1pSmArFo=
 		</data>
 		<key>Modules/SensieFramework.swiftmodule/armv7-apple-ios.swiftdoc</key>
 		<data>
-		oGu7TclkGLOMpWGdH06/1ZNdgRU=
+		jNz7xib+gHHkaqmQK2WyzG1V4IM=
 		</data>
 		<key>Modules/SensieFramework.swiftmodule/armv7-apple-ios.swiftmodule</key>
 		<data>
-		0LOnDXFJqWkafvyQBYA+elHqOM0=
+		YPjLO4zLMrgN3Zf0r4RaDqkEKNk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -51,11 +51,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			U8DibGl09phZSG7+Bt42JFw+hm0=
+			AIJWgjYif5i93nrL6kTxu72L800=
 			</data>
 			<key>hash2</key>
 			<data>
-			ag4fMQWWydSEQoShvBWA6AQrcIZBLrZvdruk39bKP6Y=
+			MSucLZK686TsQeuLn37SL3qoxbbO2dwvrPpVqOdsnuA=
 			</data>
 		</dict>
 		<key>Headers/SensieFramework.h</key>
@@ -73,66 +73,66 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			D4/Xa2Zx3LFIkOWoXDQxnisAFUA=
+			YKlCB6gvIMPR+ooGS79QX6/KQUA=
 			</data>
 			<key>hash2</key>
 			<data>
-			uHqUdGtcOCSvN1g0G3tsERv8qBJv0y6fjbUFYJ8Ayt4=
+			kXWZKKAXwzL1M4p4yyZScZJ0tNcZgxHpg3ABrdAThzY=
 			</data>
 		</dict>
 		<key>Modules/SensieFramework.swiftmodule/Project/armv7-apple-ios.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			LEvlITpI2w5P9LQICJNjnUWGKJg=
+			b2YCPUuke10fTr7kxWJs+7Qh9fA=
 			</data>
 			<key>hash2</key>
 			<data>
-			7NdQj/v/lxpQ0AWXJQCtIkrJBI9QPHx0Dv2T/O+/R8U=
+			2MP8LJ2ZBOMRxI7/9YSlyqR1oIAvZdZKwDLjSUu2oO0=
 			</data>
 		</dict>
 		<key>Modules/SensieFramework.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Jb5i/XaUKxZLvDNWWsRpgLzkgFY=
+			ONyF/sPrbNVRAee08Z3XRF5IPhI=
 			</data>
 			<key>hash2</key>
 			<data>
-			NyHMvfGy6k0kwT3PnoibWf7kA0PYBGVk1+4dA+B+dq0=
+			wb+R55VkZGq3VEq43mx+lWxSAA8wTPEIOfj8Srjk9ds=
 			</data>
 		</dict>
 		<key>Modules/SensieFramework.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Z4eppsQYtYpNVA7VWCgeZTktOdE=
+			Lpbl5LMFtCyVpdpIQas1pSmArFo=
 			</data>
 			<key>hash2</key>
 			<data>
-			EMNNimc2pXoj0/VGc4ZBKlzPxKlLgyrdT/YzTfpsVkk=
+			xtdvwVjRDUFk0XANJhH4l5Qt55gdochrCd7T7SrR1k0=
 			</data>
 		</dict>
 		<key>Modules/SensieFramework.swiftmodule/armv7-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			oGu7TclkGLOMpWGdH06/1ZNdgRU=
+			jNz7xib+gHHkaqmQK2WyzG1V4IM=
 			</data>
 			<key>hash2</key>
 			<data>
-			pgXL8+LikcmvWybzQbddOc6EPgwRTb1pI0J7YVdZ8ak=
+			mLRGmHn9xqkSE5ZMc5dIFNousSUc3czaOCBQxZz77jc=
 			</data>
 		</dict>
 		<key>Modules/SensieFramework.swiftmodule/armv7-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			0LOnDXFJqWkafvyQBYA+elHqOM0=
+			YPjLO4zLMrgN3Zf0r4RaDqkEKNk=
 			</data>
 			<key>hash2</key>
 			<data>
-			6/EyoKxNcjORrq6NOlFejkyigWGlhMxJ+X3Y1s3MwKU=
+			oq3rBbME+qsYifIOviVNZZepDJGbwfoziK2XsptPS48=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

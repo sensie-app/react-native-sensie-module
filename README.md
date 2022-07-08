@@ -111,7 +111,6 @@ enum Agreement {
 
 sensie.setAgreement(Agreement.Agree)
 ```
-
 <br />
 
 ## Contributing

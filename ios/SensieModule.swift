@@ -22,10 +22,17 @@ class SensieModule: NSObject {
     }
     @objc(evaluateSensie:withSensies:withResolver:withRejecter:)
     func evaluateSensie(sensie: NSDictionary, sensies: [NSDictionary], resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        resolve(SensieFramework.evaluateSensie(sensie: sensie, sensies: sensies))
+        guard let sensieDic = sensie as? [String: Any],
+              let sensiesDic = sensies as? [[String: Any]] else {
+            return
+        }
+        resolve(SensieFramework.evaluateSensie(sensie: sensieDic, sensies: sensiesDic))
     }
     @objc(signalStrength:withResolver:withRejecter:)
     func signalStrength(sensies: [NSDictionary], resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        resolve(SensieFramework.signalStrength(sensies: sensies))
+        guard let sensiesDic = sensies as? [[String: Any]] else {
+            return
+        }
+        resolve(SensieFramework.signalStrength(sensies: sensiesDic))
     }
 }
