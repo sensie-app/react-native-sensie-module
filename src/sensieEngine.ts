@@ -4,17 +4,13 @@ import type {
   CalibrationInput,
   CaptureEvaluateSensieInput,
 } from './types';
-import {
-  SENSIES,
-  checkStorage,
-  resetAllData,
-  getDataFromAsyncStorage,
-} from './asyncStorageUtils';
+import { SENSIES } from './asyncStorageUtils';
 import { BASE_URL } from './request';
 import { CalibrationSession } from './calibrationSession';
 import { whipCounter, siganlStrength, evaluateSensie } from './index';
 import { gyroscope, accelerometer } from 'react-native-sensors';
 import { Sensie } from './sensie';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class SensieEngine {
   accessToken: string;
@@ -42,35 +38,65 @@ export class SensieEngine {
     this.sessionId = '';
   }
 
-  async connect() {
-    this.canEvaluate = await checkStorage();
-    const ret = new Promise((resolve, reject) => {
-      if (this.accessToken) {
-        this.canRecalibrate = this.canEvaluate;
-        const resJSON: any = this.startSessionRequest('calibration')
-        const sessionId = resJSON.data.session.id
-        this.sessionId = sessionId
-        resolve('Successfully connected');
-      } else {
-        reject('Connection failed');
-      }
-    });
-    return ret;
+  async getDataFromAsyncStorage(key: string) {
+    try {
+      const jsonValue = await AsyncStorage.getItem(key);
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  startCalibration(calibrationInput: CalibrationInput): CalibrationSession | object {
+  async checkCanEvaluate() {
+    const sensies = await this.getDataFromAsyncStorage(SENSIES);
+    let [flow, block] = [0, 0];
+    if (!sensies) return false;
+    for (let i = 0; i < sensies.length; i++) {
+      if (sensies[i].flow) flow++;
+      else block++;
+    }
+    if (flow >= 3 && block >= 3) return true;
+    return false;
+  }
+
+  async checkCanRecalibrate() {
+    return true;
+  }
+
+  async connect() {
+    if (this.accessToken) {
+      this.canRecalibrate = await this.checkCanRecalibrate();
+      this.canEvaluate = await this.checkCanEvaluate();
+    }
+    return new Promise((resolve, reject) => {
+      if (this.accessToken) {
+        resolve({
+          message: `Successfully connected. Recalibrate : ${this.canRecalibrate}, Evaluate : ${this.canEvaluate}`,
+        });
+      } else {
+        reject({ message: 'Connection failed : Empty accessToken' });
+      }
+    });
+  }
+
+  async startCalibration(calibrationInput: CalibrationInput): Promise<any> {
     if (this.canRecalibrate) {
       this.userId = calibrationInput.userId;
       this.onEnds = calibrationInput.onEnds;
-
+      const resJSON = await this.startSessionRequest('calibration');
+      const sessionId = resJSON.data.session.id;
+      this.sessionId = sessionId;
       return new CalibrationSession(this.accessToken, this.sessionId);
     }
-    return { message: 'There are stored sensies already. Please reset first.' };
+    return { message: "Can't recalibrate sensie. Please check async storage." };
   }
 
   async resetCalibration() {
-    this.onEnds = () => {};
-    await resetAllData();
+    await AsyncStorage.removeItem(SENSIES);
+  }
+
+  get getCanEvaluate() {
+    return this.canEvaluate;
   }
 
   startSensors(callback: ((data: any) => void) | undefined) {
@@ -114,7 +140,7 @@ export class SensieEngine {
     subAcc.unsubscribe();
   }
 
-  async startSessionRequest(type: string) : Promise<any> {
+  async startSessionRequest(type: string): Promise<any> {
     const path = '/session';
 
     const body = { userId: this.userId, Type: type };
@@ -132,7 +158,7 @@ export class SensieEngine {
       headers: headers,
     };
 
-    const res = await fetch(BASE_URL + path, option); 
+    const res = await fetch(BASE_URL + path, option);
     return await res.json();
   }
 
@@ -178,13 +204,11 @@ export class SensieEngine {
     const sessionId = resJSON.data.session.id;
     this.sessionId = sessionId;
 
-    const sensies = await getDataFromAsyncStorage(SENSIES);
-
     const { subGyro, subAcc } = this.startSensors(
       captureSensieInput.onSensorData
     );
 
-    const prom = new Promise((resolve, reject) => {
+    const prom = new Promise((resolve) => {
       setTimeout(async () => {
         this.stopSensors(subGyro, subAcc);
         this.roundSensorData();
@@ -194,6 +218,7 @@ export class SensieEngine {
         });
 
         if (whipCount == 3) {
+          const sensies = await this.getDataFromAsyncStorage(SENSIES);
           const sensie = {
             whipCount: whipCount,
             signal: avgFlatCrest,
@@ -211,11 +236,15 @@ export class SensieEngine {
 
           this.resetSensorData();
 
-          resolve(retSensie);
+          return resolve(retSensie);
         }
 
         this.resetSensorData();
-        reject({ message: 'Whipcount is not 3.' });
+        return resolve({
+          id: 'Invalid sensie',
+          whips: whipCount,
+          flowing: undefined,
+        });
       }, 3000);
     });
 

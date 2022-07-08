@@ -1,8 +1,9 @@
 import type { SensorData, CaptureSensieInput } from './types';
 import { gyroscope, accelerometer } from 'react-native-sensors';
 import { whipCounter } from './index';
-import { addSensie, checkStorage } from './asyncStorageUtils';
 import { BASE_URL } from './request';
+import { SENSIES } from './asyncStorageUtils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class CalibrationSession {
   id: string;
@@ -99,15 +100,49 @@ export class CalibrationSession {
     return await res.json();
   }
 
+  async storeDataToAsyncStorage(key: string, value: any) {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem(key, jsonValue);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async addSensie(sensie: any) {
+    try {
+      const sensies = await this.getDataFromAsyncStorage(SENSIES);
+      await this.storeDataToAsyncStorage(
+        SENSIES,
+        sensies != null ? [...sensies, sensie] : [sensie]
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async getDataFromAsyncStorage(key: string) {
+    try {
+      const jsonValue = await AsyncStorage.getItem(key);
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async checkCanCaptureSensie() {
+    return true;
+  }
+
   async captureSensie(captureSensieInput: CaptureSensieInput) {
     if (!this.canCaptureSensie) {
-      return undefined;
+      return { message: "Can't capture sensie anymore" };
     }
     const { subGyro, subAcc } = this.startSensors(
       captureSensieInput.onSensorData
     );
 
-    const prom = new Promise((resolve, reject) => {
+    const prom = new Promise((resolve) => {
       setTimeout(async () => {
         this.stopSensors(subGyro, subAcc);
         this.roundSensorData();
@@ -124,9 +159,9 @@ export class CalibrationSession {
             flow: captureSensieInput.flow,
           };
 
-          await addSensie(this.currentSensie);
+          await this.addSensie(this.currentSensie);
 
-          this.canCaptureSensie = !(await checkStorage());
+          this.canCaptureSensie = await this.checkCanCaptureSensie();
 
           const resJSON = await this.storeSensieRequest(
             whipCount,
@@ -141,12 +176,14 @@ export class CalibrationSession {
           };
 
           this.resetSensorData();
-
-          resolve(retSensie);
+          return resolve(retSensie);
         }
         this.resetSensorData();
-
-        reject({ message: 'Whipcount is not 3.' });
+        return resolve({
+          id: 'Invalid sensie',
+          whips: whipCount,
+          valid: whipCount == 3,
+        });
       }, 3000);
     });
     return prom;
