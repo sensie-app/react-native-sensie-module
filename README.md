@@ -94,8 +94,23 @@ const sensie = await s.captureSensie({
 
 ```
 &nbsp;&nbsp; **sensie** object will be an object with the following properties:
+- **id**: the id of the sensie but undefied yet.
 - **whips**: the number of whips
 - **flowing**: the result of the evaluation (true or false)
+- **setAgreement**: Method for setting agreement. Sensie id will be set as soon as the agrement value is set. Agreement enum is included in the index.tsx.
+
+
+
+### Setting agreement
+```js
+enum Agreement {
+  Agree = 1,
+  Disagree = -1,
+  AgreeAfterReflecting = 2,
+}
+
+sensie.setAgreement(Agreement.Agree)
+```
 
 <br />
 
