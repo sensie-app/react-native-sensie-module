@@ -226,10 +226,18 @@ export class SensieEngine {
           };
           const { flowing } = await evaluateSensie(sensie, sensies);
 
-          const retSensie = new Sensie(whipCount, flowing, this.sensorData, {
-            sessionId: this.sessionId,
-            accessToken: this.accessToken,
-          });
+          const retSensie = new Sensie(
+            {
+              whips: whipCount,
+              flowing: flowing,
+              signal: avgFlatCrest,
+              sensorData: this.sensorData,
+            },
+            {
+              sessionId: this.sessionId,
+              accessToken: this.accessToken,
+            }
+          );
 
           const calibration_strength = await siganlStrength(sensies);
           this.onEnds({ calibration_strength: calibration_strength });
