@@ -87,6 +87,10 @@ await s.resetCalibration();
 
 ### Evaluation
 ```js
+const resJSON = await s.startSessionRequest('evaluation')
+const sessionId = resJSON.data.session.id
+s.sessionId = sessionId
+
 const sensie = await s.captureSensie({
   userId,
   onSensorData: (data) => {}, // (optional)
