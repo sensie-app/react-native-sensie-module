@@ -151,39 +151,31 @@ export class CalibrationSession {
           yaw: this.sensorData.gyroZ,
         });
 
+        this.currentSensie = {
+          whipCount: whipCount,
+          signal: avgFlatCrest,
+          sensorData: this.sensorData,
+          flow: captureSensieInput.flow,
+        };
+
+        this.canCaptureSensie = await this.checkCanCaptureSensie();
+
         if (whipCount == 3) {
-          this.currentSensie = {
-            whipCount: whipCount,
-            signal: avgFlatCrest,
-            sensorData: this.sensorData,
-            flow: captureSensieInput.flow,
-          };
-
           await this.addSensie(this.currentSensie);
-
-          this.canCaptureSensie = await this.checkCanCaptureSensie();
-
-          const resJSON = await this.storeSensieRequest(
-            whipCount,
-            captureSensieInput.flow
-          );
-          const sensieId = resJSON.data.sensie.id;
-
-          const retSensie = {
-            id: sensieId,
-            whips: whipCount,
-            valid: whipCount == 3,
-          };
-
-          this.resetSensorData();
-          return resolve(retSensie);
         }
-        this.resetSensorData();
-        return resolve({
-          id: 'Invalid sensie',
+        const resJSON = await this.storeSensieRequest(
+          whipCount,
+          captureSensieInput.flow
+        );
+        const sensieId = resJSON.data.sensie.id;
+        
+        const retSensie = {
+          id: sensieId,
           whips: whipCount,
           valid: whipCount == 3,
-        });
+        };
+        this.resetSensorData();
+        return resolve(retSensie);
       }, 3000);
     });
     return prom;

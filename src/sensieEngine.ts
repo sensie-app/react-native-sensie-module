@@ -143,7 +143,7 @@ export class SensieEngine {
   async startSessionRequest(type: string): Promise<any> {
     const path = '/session';
 
-    const body = { userId: this.userId, Type: type };
+    const body = { userId: this.userId, type: type };
 
     const header = {
       'Content-Type': 'application/json',
@@ -199,10 +199,6 @@ export class SensieEngine {
   ): Promise<any> {
     if (captureSensieInput.userId != this.userId)
       return { message: 'User id is not valid.' };
-
-    const resJSON = await this.startSessionRequest('evaluation');
-    const sessionId = resJSON.data.session.id;
-    this.sessionId = sessionId;
 
     const { subGyro, subAcc } = this.startSensors(
       captureSensieInput.onSensorData
