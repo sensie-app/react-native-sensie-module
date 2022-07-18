@@ -45,11 +45,11 @@ export function whipCounter(p: Object): Promise<WhipCounterReturn> {
 
 export function evaluateSensie(
   sensie: Object,
-  sensies: Object[]
+  sensies: Array<Object>
 ): Promise<EvaluateSensieReturn> {
   return SensieModule.evaluateSensie(sensie, sensies);
 }
 
-export function siganlStrength(sensies: Object[]): Promise<number> {
-  return SensieModule.siganlStrength(sensies);
+export function signalStrength(sensies: Array<Object>): Promise<number> {
+  return SensieModule.signalStrength(sensies);
 }

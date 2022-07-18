@@ -44,12 +44,12 @@ export class CalibrationSession {
   }
 
   roundSensorData() {
-    this.sensorData.gyroX.map((x) => Math.round(x * 100) / 100);
-    this.sensorData.gyroY.map((x) => Math.round(x * 100) / 100);
-    this.sensorData.gyroZ.map((x) => Math.round(x * 100) / 100);
-    this.sensorData.accelX.map((x) => Math.round(x * 100) / 100);
-    this.sensorData.accelY.map((x) => Math.round(x * 100) / 100);
-    this.sensorData.accelZ.map((x) => Math.round(x * 100) / 100);
+    this.sensorData.gyroX = this.sensorData.gyroX.map(x => Math.round(x * 100) / 100);
+    this.sensorData.gyroY = this.sensorData.gyroY.map(x => Math.round(x * 100) / 100);
+    this.sensorData.gyroZ = this.sensorData.gyroZ.map(x => Math.round(x * 100) / 100);
+    this.sensorData.accelX = this.sensorData.accelX.map(x => Math.round(x * 100) / 100);
+    this.sensorData.accelY = this.sensorData.accelY.map(x => Math.round(x * 100) / 100);
+    this.sensorData.accelZ = this.sensorData.accelZ.map(x => Math.round(x * 100) / 100);
   }
 
   resetSensorData() {

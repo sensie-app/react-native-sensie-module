@@ -7,7 +7,7 @@ import type {
 import { SENSIES } from './asyncStorageUtils';
 import { BASE_URL } from './request';
 import { CalibrationSession } from './calibrationSession';
-import { whipCounter, siganlStrength, evaluateSensie } from './index';
+import { whipCounter, signalStrength, evaluateSensie } from './index';
 import { gyroscope, accelerometer } from 'react-native-sensors';
 import { Sensie } from './sensie';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -116,12 +116,12 @@ export class SensieEngine {
   }
 
   roundSensorData() {
-    this.sensorData.gyroX.map((x) => Math.round(x * 100) / 100);
-    this.sensorData.gyroY.map((x) => Math.round(x * 100) / 100);
-    this.sensorData.gyroZ.map((x) => Math.round(x * 100) / 100);
-    this.sensorData.accelX.map((x) => Math.round(x * 100) / 100);
-    this.sensorData.accelY.map((x) => Math.round(x * 100) / 100);
-    this.sensorData.accelZ.map((x) => Math.round(x * 100) / 100);
+    this.sensorData.gyroX = this.sensorData.gyroX.map(x => Math.round(x * 100) / 100);
+    this.sensorData.gyroY = this.sensorData.gyroY.map(x => Math.round(x * 100) / 100);
+    this.sensorData.gyroZ = this.sensorData.gyroZ.map(x => Math.round(x * 100) / 100);
+    this.sensorData.accelX = this.sensorData.accelX.map(x => Math.round(x * 100) / 100);
+    this.sensorData.accelY = this.sensorData.accelY.map(x => Math.round(x * 100) / 100);
+    this.sensorData.accelZ = this.sensorData.accelZ.map(x => Math.round(x * 100) / 100);
   }
 
   resetSensorData() {
@@ -173,7 +173,7 @@ export class SensieEngine {
       gyroscopeY: this.sensorData.gyroY,
       gyroscopeZ: this.sensorData.gyroZ,
       whips: whipCount,
-      flowing: flowing,
+      flowing: flowing ? 1 : -1,
       agreement: 1,
     };
 
@@ -235,7 +235,7 @@ export class SensieEngine {
             }
           );
 
-          const calibration_strength = await siganlStrength(sensies);
+          const calibration_strength = await signalStrength(sensies);
           this.onEnds({ calibration_strength: calibration_strength });
 
           this.resetSensorData();

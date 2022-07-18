@@ -53,7 +53,7 @@ export class Sensie {
       gyroscopeY: this.sensorData.gyroY,
       gyroscopeZ: this.sensorData.gyroZ,
       whips: whipCount,
-      flowing: flowing,
+      flowing: flowing ? 1 : -1,
       agreement: agreement,
     };
 
@@ -111,7 +111,7 @@ export class Sensie {
         whipCount: this.whips,
         signal: this.signal,
         sensorData: this.sensorData,
-        flow: true,
+        flow: this.flowing,
       })
     }
     const resJSON = await this.storeSensieRequest(
