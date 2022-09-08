@@ -100,6 +100,16 @@ export class SensieEngine {
     return { message: "Can't recalibrate sensie. Please check async storage." };
   }
 
+  async startEvaluation(userId: string) {
+    if (this.canEvaluate) {
+      this.userId = userId;
+      const resJSON = await this.startSessionRequest('evaluation');
+      this.sessionId = resJSON.data.session.id;
+      return { message: `Successfully connected. Recalibrate : ${this.canRecalibrate}, Evaluate : ${this.canEvaluate}`};
+    }
+    return { message: "Can't evaluate sensie. Please check async storage." };
+  }
+
   async resetCalibration() {
     await AsyncStorage.removeItem(SENSIES);
   }
