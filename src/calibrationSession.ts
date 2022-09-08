@@ -44,12 +44,24 @@ export class CalibrationSession {
   }
 
   roundSensorData() {
-    this.sensorData.gyroX = this.sensorData.gyroX.map(x => Math.round(x * 100) / 100);
-    this.sensorData.gyroY = this.sensorData.gyroY.map(x => Math.round(x * 100) / 100);
-    this.sensorData.gyroZ = this.sensorData.gyroZ.map(x => Math.round(x * 100) / 100);
-    this.sensorData.accelX = this.sensorData.accelX.map(x => Math.round(x * 100) / 100);
-    this.sensorData.accelY = this.sensorData.accelY.map(x => Math.round(x * 100) / 100);
-    this.sensorData.accelZ = this.sensorData.accelZ.map(x => Math.round(x * 100) / 100);
+    this.sensorData.gyroX = this.sensorData.gyroX.map(
+      (x) => Math.round(x * 100) / 100
+    );
+    this.sensorData.gyroY = this.sensorData.gyroY.map(
+      (x) => Math.round(x * 100) / 100
+    );
+    this.sensorData.gyroZ = this.sensorData.gyroZ.map(
+      (x) => Math.round(x * 100) / 100
+    );
+    this.sensorData.accelX = this.sensorData.accelX.map(
+      (x) => Math.round(x * 100) / 100
+    );
+    this.sensorData.accelY = this.sensorData.accelY.map(
+      (x) => Math.round(x * 100) / 100
+    );
+    this.sensorData.accelZ = this.sensorData.accelZ.map(
+      (x) => Math.round(x * 100) / 100
+    );
   }
 
   resetSensorData() {
@@ -160,22 +172,29 @@ export class CalibrationSession {
 
         this.canCaptureSensie = await this.checkCanCaptureSensie();
 
-        if (whipCount == 3) {
-          await this.addSensie(this.currentSensie);
+        if (whipCount == 3) await this.addSensie(this.currentSensie);
+        if (whipCount != 0) {
+          const resJSON = await this.storeSensieRequest(
+            whipCount,
+            captureSensieInput.flow
+          );
+          const sensieId = resJSON.data.sensie.id;
+
+          const retSensie = {
+            id: sensieId,
+            whips: whipCount,
+            valid: whipCount == 3,
+          };
+          this.resetSensorData();
+          return resolve(retSensie);
+        } else {
+          this.resetSensorData();
+          return resolve({
+            id: 'Invalid Sensie with 0 whip count',
+            whips: whipCount,
+            valid: false,
+          });
         }
-        const resJSON = await this.storeSensieRequest(
-          whipCount,
-          captureSensieInput.flow
-        );
-        const sensieId = resJSON.data.sensie.id;
-        
-        const retSensie = {
-          id: sensieId,
-          whips: whipCount,
-          valid: whipCount == 3,
-        };
-        this.resetSensorData();
-        return resolve(retSensie);
       }, 3000);
     });
     return prom;

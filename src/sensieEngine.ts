@@ -20,6 +20,7 @@ export class SensieEngine {
   sensorData: SensorData;
   userId: string;
   sessionId: string;
+  isConnecting: boolean;
 
   constructor(sensieEngineInit: SensieEngineInit) {
     this.accessToken = sensieEngineInit.accessToken;
@@ -36,6 +37,7 @@ export class SensieEngine {
     };
     this.userId = '';
     this.sessionId = '';
+    this.isConnecting = false;
   }
 
   async getDataFromAsyncStorage(key: string) {
