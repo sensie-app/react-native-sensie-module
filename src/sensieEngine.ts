@@ -52,12 +52,19 @@ export class SensieEngine {
   async checkCanEvaluate() {
     const sensies = await this.getDataFromAsyncStorage(SENSIES);
     let [flow, block] = [0, 0];
-    if (!sensies) return false;
+    if (!sensies) {
+      this.canEvaluate = false;
+      return false;
+    }
     for (let i = 0; i < sensies.length; i++) {
-      if (sensies[i].flow) flow++;
+      if (sensies[i].flow == 1) flow++;
       else block++;
     }
-    if (flow >= 3 && block >= 3) return true;
+    if (flow >= 3 && block >= 3) {
+      this.canEvaluate = true;
+      return true;
+    }
+    this.canEvaluate = false;
     return false;
   }
 
@@ -118,12 +125,24 @@ export class SensieEngine {
   }
 
   roundSensorData() {
-    this.sensorData.gyroX = this.sensorData.gyroX.map(x => Math.round(x * 100) / 100);
-    this.sensorData.gyroY = this.sensorData.gyroY.map(x => Math.round(x * 100) / 100);
-    this.sensorData.gyroZ = this.sensorData.gyroZ.map(x => Math.round(x * 100) / 100);
-    this.sensorData.accelX = this.sensorData.accelX.map(x => Math.round(x * 100) / 100);
-    this.sensorData.accelY = this.sensorData.accelY.map(x => Math.round(x * 100) / 100);
-    this.sensorData.accelZ = this.sensorData.accelZ.map(x => Math.round(x * 100) / 100);
+    this.sensorData.gyroX = this.sensorData.gyroX.map(
+      (x) => Math.round(x * 100) / 100
+    );
+    this.sensorData.gyroY = this.sensorData.gyroY.map(
+      (x) => Math.round(x * 100) / 100
+    );
+    this.sensorData.gyroZ = this.sensorData.gyroZ.map(
+      (x) => Math.round(x * 100) / 100
+    );
+    this.sensorData.accelX = this.sensorData.accelX.map(
+      (x) => Math.round(x * 100) / 100
+    );
+    this.sensorData.accelY = this.sensorData.accelY.map(
+      (x) => Math.round(x * 100) / 100
+    );
+    this.sensorData.accelZ = this.sensorData.accelZ.map(
+      (x) => Math.round(x * 100) / 100
+    );
   }
 
   resetSensorData() {
@@ -238,7 +257,9 @@ export class SensieEngine {
           );
 
           const calibration_strength = await signalStrength(sensies);
-          this.onEnds({ calibration_strength: calibration_strength });
+          if (this.onEnds) {
+            this.onEnds({ calibration_strength: calibration_strength });
+          }
 
           this.resetSensorData();
 

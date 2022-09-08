@@ -167,7 +167,7 @@ export class CalibrationSession {
           whipCount: whipCount,
           signal: avgFlatCrest,
           sensorData: this.sensorData,
-          flow: captureSensieInput.flow,
+          flow: captureSensieInput.flow ? 1 : -1,
         };
 
         this.canCaptureSensie = await this.checkCanCaptureSensie();
