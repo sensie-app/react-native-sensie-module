@@ -1,6 +1,6 @@
 # react-native-sensie-module
 
-&nbsp; React Native Sensie SDK MVP version for iOS. <br/>
+&nbsp; React Native Sensie SDK. <br/>
 &nbsp; [Docs](https://sensie-app.github.io/react-native-sensie-module/)
 
 
