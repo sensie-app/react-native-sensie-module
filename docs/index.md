@@ -5,7 +5,7 @@ title: Sensie SDK
 
 # react-native-sensie-module
 
-&nbsp; React Native Sensie SDK MVP version for iOS. Android binary will be added soon.
+&nbsp; React Native Sensie SDK MVP version for iOS. 
 
 
 
