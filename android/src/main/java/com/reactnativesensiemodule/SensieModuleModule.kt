@@ -17,9 +17,17 @@ class SensieModuleModule(reactContext: ReactApplicationContext) : ReactContextBa
     // See https://reactnative.dev/docs/native-modules-android
     @ReactMethod
     fun multiply(a: Int, b: Int, promise: Promise) {
-
       promise.resolve(a * b)
+    }
 
+    @ReactMethod
+    fun add(a: Int, b: Int, promise: Promise) {
+      promise.resolve(a + b)
+    }
+
+    @ReactMethod
+    fun subtract(a: Int, b: Int, promise: Promise) {
+      promise.resolve(a - b)
     }
 
     @ReactMethod
