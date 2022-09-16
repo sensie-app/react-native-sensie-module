@@ -92,9 +92,7 @@ await s.resetCalibration();
 
 ### Evaluation
 ```js
-const resJSON = await s.startSessionRequest('evaluation')
-const sessionId = resJSON.data.session.id
-s.sessionId = sessionId
+await s.startEvaluation(userId) // creation of evaluation session
 
 const sensie = await s.captureSensie({
   userId,
