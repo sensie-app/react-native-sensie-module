@@ -1,7 +1,7 @@
 # react-native-sensie-module
 
 &nbsp; React Native Sensie SDK. <br/>
-&nbsp; [Go To Docs](https://sensie-app.github.io/react-native-sensie-module/)
+&nbsp; [Go To The Docs](https://sensie-app.github.io/react-native-sensie-module/)
 
 
 ## Installation
